@@ -174,15 +174,15 @@ error 403 do
 end
 
 
-
 get "/sms/incoming" do
 	sender = params[:From] || ""
 	body = params[:Body] || ""
- 
+  media = "https://compote.slate.com/images/697b023b-64a5-49a0-8059-27b963453fb1.gif"
 	message = "Thanks for the message. From #{sender} saying #{body}"
 	twiml = Twilio::TwiML::MessagingResponse.new do |r|
 		r.message do |m|
 			m.body(message)
+			m.medua(media)
 	   end
    end
 
