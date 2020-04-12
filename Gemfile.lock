@@ -2,10 +2,17 @@ GEM
   remote: https://rubygems.org/
   specs:
     backports (3.17.1)
+    faraday (1.0.1)
+      multipart-post (>= 1.2, < 3)
     json (2.3.0)
+    jwt (2.2.1)
+    mini_portile2 (2.4.0)
     multi_json (1.14.1)
+    multipart-post (2.1.1)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
+    nokogiri (1.10.9)
+      mini_portile2 (~> 2.4.0)
     rack (2.2.2)
     rack-protection (2.0.8.1)
       rack
@@ -23,6 +30,10 @@ GEM
       sinatra (= 2.0.8.1)
       tilt (~> 2.0)
     tilt (2.0.10)
+    twilio-ruby (5.33.0)
+      faraday (~> 1.0.0)
+      jwt (>= 1.5, <= 2.5)
+      nokogiri (>= 1.6, < 2.0)
 
 PLATFORMS
   ruby
@@ -31,6 +42,7 @@ DEPENDENCIES
   json
   sinatra
   sinatra-contrib
+  twilio-ruby (> 5.0.0)
 
 BUNDLED WITH
    2.1.4
