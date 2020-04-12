@@ -17,7 +17,6 @@ code = "sofronia"
 
 get "/" do
 	redirect "/about"
-	ENV["TWILIO_FROM"]
 end
 
 
@@ -43,6 +42,7 @@ get "/about" do
 	else
 		welcomeback + "<br/>" + description  + "<br/>" + visit
 	end
+	ENV["TWILIO_FROM"]
 end
 
 
