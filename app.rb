@@ -182,7 +182,7 @@ get "/sms/incoming" do
 	twiml = Twilio::TwiML::MessagingResponse.new do |r|
 		r.message do |m|
 			m.body(message)
-			m.medua(media)
+			m.media(media)
 	   end
    end
 
