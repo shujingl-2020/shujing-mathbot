@@ -42,7 +42,7 @@ get "/about" do
 	else
 		welcomeback + "<br/>" + description  + "<br/>" + visit
 	end
-	ENV["TWILIO_FROM"]
+	#ENV["TWILIO_FROM"]
 end
 
 
@@ -171,4 +171,23 @@ end
 
 error 403 do
 	"Access Forbidden"
+end
+
+
+get "test/sms" do
+  # code to check parameters
+	#...
+  client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
+
+  # Include a message here
+  message = "Hi" + session["first_name"] + ", welcome to BotName! I can respond to who, what, where, when and why. If you're stuck, type help."
+
+  # this will send a message from any end point
+  client.api.account.messages.create(
+    from: ENV["TWILIO_FROM"],
+    to:  ENV["TEST_NUMBER"],
+    body: message
+  )
+	# response if eveything is OK
+	"You're signed up. You'll receive a text message in a few minutes from the bot. "
 end
