@@ -175,17 +175,29 @@ end
 
 
 get "/sms/incoming" do
+	session[:counter] || =0
+
 	sender = params[:From] || ""
 	body = params[:Body] || ""
   media = "https://compote.slate.com/images/697b023b-64a5-49a0-8059-27b963453fb1.gif"
 	message = "Thanks for the message. From #{sender} saying #{body}"
+
+	if session[:counter] == 0
+		 message = "Hello, thanks for the new message."
+	else
+		message = "Hello, thanks for the message number #{session[:counter]}"
+		media = nil
+	end
+
 	twiml = Twilio::TwiML::MessagingResponse.new do |r|
 		r.message do |m|
 			m.body(message)
-			m.media(media)
+      unless media.nil?
+		   	m.media(media)
 	   end
    end
-
+ end
+   session[:counter] += 1
 	 content_type 'text/xml'
 	 twiml.to_s
 end
