@@ -28,7 +28,7 @@ get "/about" do
 			timed_greeting = evening_greetings.sample
 	end
   welcome = "#{timed_greeting} #{bot_greetings.sample}"
-	description =  "This is mathbot!"
+	description =  "This is a mathbot!"
 	welcomeback = "#{timed_greeting}! #{bot_greetings.sample} #{session["first_name"]}"
 	timeFormat = time.strftime("%A %B %d, %Y %H:%M")
 	visit = "My app can help you solve math problems! You have visited #{session["visits"]} times as of #{timeFormat}"
