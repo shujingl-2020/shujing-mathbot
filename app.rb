@@ -175,7 +175,7 @@ end
 
 
 get "/sms/incoming" do
-	session[:counter] ||  = 0
+	session[:counter] || 0
 
 	sender = params[:From] || ""
 	body = params[:Body] || ""
