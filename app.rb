@@ -4,6 +4,11 @@ require 'twilio-ruby'
 
 enable :sessions
 
+configure :development do
+	require 'dotenv'
+	Dotenv.load
+end
+
 bot_greetings = ["Hey","Welcome","Yo","Nice to see you","What's up!","Good to see you!","Hey there!"]
 morning_greetings = ["Morning","Good morning"]
 afternoon_greetings = ["Afternoon","Good afternoon"]
@@ -12,6 +17,7 @@ code = "sofronia"
 
 get "/" do
 	redirect "/about"
+	ENV["TWILIO_FROM"]
 end
 
 
