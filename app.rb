@@ -174,13 +174,29 @@ error 403 do
 end
 
 
-get "test/sms" do
+
+get "/sms/incoming" do
+	sender = params[:From] || ""
+	body = params[:Body] || ""
+ 
+	message = "Thanks for the message. From #{sender} saying #{body}"
+	twiml = Twilio::TwiML::MessagingResponse.new do |r|
+		r.message do |m|
+			m.body(message)
+	   end
+   end
+
+	 content_type 'text/xml'
+	 twiml.to_s
+end
+
+get "/test/sms" do
   # code to check parameters
 	#...
   client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
 
   # Include a message here
-  message = "Hi" + session["first_name"] + ", welcome to BotName! I can respond to who, what, where, when and why. If you're stuck, type help."
+  message = "Hi, welcome to SoMath!\n I can respond to who, what, where, when and why. If you're stuck, type help."
 
   # this will send a message from any end point
   client.api.account.messages.create(
