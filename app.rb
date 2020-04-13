@@ -118,11 +118,11 @@ def determine_response body
 	fun_keywords = ["haha","lol","so funny"]
 
 	# store chatbot responses into variables
-	error_message =  "Sorry. I am not sure I understand. <br>
+	error_message =  "Sorry. I am not sure I understand. \n
 	                 I can only respond to commands hi, what, who, where, when, and why."
-	feature_response = "This is a bot that can help you learn more about me! 🤖<br>
+	feature_response = "This is a bot that can help you learn more about me! 🤖\n
 	                   Just type in some commands such as where, what, why"
-	why_response = "It was made for a class project for Programming for online prototypes. <br>
+	why_response = "It was made for a class project for Programming for online prototypes. \n
 	                I want to use this opportunity to introduce myself more easily."
 	who_response = "My name is Shujing Lin. I am a METALS student at CMU."
 	where_response = "I am in Pittsburgh now!"
@@ -162,7 +162,7 @@ end
 
 get "/test/conversation" do
 	if params[:Body].nil? || params[:From].nil? #check if parameters are blank
-		return "Sorry, I am not sure I understand.<br>
+		return "Sorry, I am not sure I understand.\n
 						Try type in some messages and your phone number."
 	else
 		determine_response params[:Body]
