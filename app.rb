@@ -109,7 +109,7 @@ def determine_response body
 
 	bot_greetings = ["Hey!","Welcome!","Yo!","Nice to see you!","What's up!","Good to see you!","Hey there!"]
 	human_greetngs = ["hi","what's up","hello","yo","hi there"]
-	feature_keywords = ["what","what can you do?","tell me your features","do you have any cool functions?"]
+	feature_keywords = ["what","what can you do","tell me your features","features","do you have any cool functions?"]
 	who_keywords = ["who","who are you"]
 	where_keywords = ["where","where are you"]
 	when_keywords = ["when","when will you be available","what time"]
