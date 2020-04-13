@@ -96,6 +96,7 @@ end
 # function that can handle different user inputs
 def match body, keywords
 		keywords.each do |keyword|
+		keyword = keyword.downcase.strip
 		if body.include?(keyword)
 			return true
 		end
