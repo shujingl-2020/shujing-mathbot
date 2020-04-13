@@ -117,6 +117,7 @@ def determine_response body
 	joke_keywords = ["joke","tell me a joke","tell me another one","another one","next", "next joke"]
 	fact_keywords = ["fact","tell me a fact","tell me another fact","more facts"]
 	fun_keywords = ["haha","lol","so funny"]
+	mood_keywords = ["sad","boring","lonely"]
 
 
 	# store chatbot responses into variables
@@ -126,11 +127,14 @@ def determine_response body
 	who_response = "My name is Shujing Lin. I am a METALS student at CMU."
 	where_response = "I am in Pittsburgh now!"
 	when_response = "I am available on weekends"
+	mood_response = ['I am here for you.','I will always be with you', "I love you 🥰"]
 
 	body = body.downcase.strip
 	if match(body, human_greetngs)
 		return bot_greetings.sample
 	# tell some facts about myself
+  elsif match(body, mood_keywords)
+		return mood_response.sample
 	elsif match(body, who_keywords)
 		return who_response
 	# tell the functionality of the bot
