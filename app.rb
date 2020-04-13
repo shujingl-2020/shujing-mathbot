@@ -120,7 +120,7 @@ def determine_response body
 	# store chatbot responses into variables
 	error_message =  "Sorry. I am not sure I understand. <br>
 	                 I can only respond to commands hi, what, who, where, when, and why."
-	feature_response = "This is a bot that can help you learn more about me! <br>
+	feature_response = "This is a bot that can help you learn more about me! 🤖<br>
 	                   Just type in some commands such as where, what, why"
 	why_response = "It was made for a class project for Programming for online prototypes. <br>
 	                I want to use this opportunity to introduce myself more easily."
@@ -179,15 +179,8 @@ get "/sms/incoming" do
 
 	sender = params[:From] || ""
 	body = params[:Body] || ""
-  media = "https://compote.slate.com/images/697b023b-64a5-49a0-8059-27b963453fb1.gif"
+  media = nil
 	message = determine_response body
-
-	if session[:counter] == 0
-		 message = "Hello, thanks for the new message."
-	else
-		message = "Hello, thanks for the message number #{session[:counter]}"
-		media = nil
-	end
 
 	twiml = Twilio::TwiML::MessagingResponse.new do |r|
 		r.message do |m|
