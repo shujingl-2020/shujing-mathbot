@@ -180,7 +180,7 @@ get "/sms/incoming" do
 	sender = params[:From] || ""
 	body = params[:Body] || ""
   media = "https://compote.slate.com/images/697b023b-64a5-49a0-8059-27b963453fb1.gif"
-	message = "Thanks for the message. From #{sender} saying #{body}"
+	message = determine_response body
 
 	if session[:counter] == 0
 		 message = "Hello, thanks for the new message."
