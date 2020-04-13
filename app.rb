@@ -119,7 +119,7 @@ def determine_response body
 
 
 	# store chatbot responses into variables
-	error_message =  "Sorry, I am not sure I understand. xsI can only respond to commands hi, what, who, where, when, and why."
+	error_message =  "Sorry, I am not sure I understand. I can only respond to commands hi, what, who, where, when, and why."
 	feature_response = "This is a bot that can help you learn more about me! 🤖\n Just type in some commands such as where, what, why"
 	why_response = "It was made for a class project for Programming for online prototypes. \n I want to use this opportunity to introduce myself more easily."
 	who_response = "My name is Shujing Lin. I am a METALS student at CMU."
