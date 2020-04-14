@@ -107,20 +107,20 @@ end
 
 def determine_response body
 
-	bot_greetings = ["Hey!","Welcome!","Yo!","Nice to see you!","What's up!","Good to see you!","Hey there!"]
 	human_greetngs = ["hi","what's up","hello","yo","hi there"]
-	feature_keywords = ["what","what can you do","tell me your features","features","do you have any cool functions?"]
-	who_keywords = ["who","who are you"]
-	where_keywords = ["where","where are you"]
-	when_keywords = ["when","when will you be available","what time"]
-	why_keywords = ["why","why do you build this bot","why built this bot?"]
-	joke_keywords = ["joke","tell me a joke","tell me another one","another one","next", "next joke"]
-	fact_keywords = ["fact","tell me a fact","tell me another fact","more facts"]
+	feature_keywords = ["what","features","cool functions?"]
+	who_keywords = ["who"]
+	where_keywords = ["where"]
+	when_keywords = ["when","what time"]
+	why_keywords = ["why"]
+	joke_keywords = ["joke","tell me a joke","another one","next"]
+	fact_keywords = ["fact","facts"]
 	fun_keywords = ["haha","lol","so funny"]
 	mood_keywords = ["sad","boring","lonely"]
 
 
 	# store chatbot responses into variables
+	bot_greetings = ["Hey!","Welcome!","Yo!","Nice to see you!","What's up!","Good to see you!","Hey there!"]
 	error_message =  "Sorry, I am not sure I understand. I can only respond to commands hi, what, who, where, when, and why."
 	feature_response = "This is a bot that can help you learn more about me! 🤖\n Just type in some commands such as where, what, why"
 	why_response = "It was made for a class project for Programming for online prototypes. \n I want to use this opportunity to introduce myself more easily."
