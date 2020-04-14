@@ -108,7 +108,7 @@ end
 def determine_response body
 
 	human_greetngs = ["hi","what's up","hello","hi there"]
-	feature_keywords = ["what","features","cool functions?"]
+	feature_keywords = ["what","features","cool functions"]
 	who_keywords = ["who"]
 	where_keywords = ["where"]
 	when_keywords = ["when","what time"]
