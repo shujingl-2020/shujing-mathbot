@@ -1,6 +1,9 @@
 require 'sinatra'
 require "sinatra/reloader" if development?
 require 'twilio-ruby'
+require 'json'
+require 'httparty'
+#require 'giphy'
 
 enable :sessions
 
@@ -214,3 +217,50 @@ get "/test/sms" do
 	# response if eveything is OK
 	"You're signed up. You'll receive a text message in a few minutes from the bot. "
 end
+
+get "/test/deckofcards/randomcard" do
+	 response = HTTParty.get("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
+	 puts response.body
+
+	 deck_id = response["deck_id"]
+	 puts "Deck id is #{deck_id}"
+   random_card_url = "https://deckofcardsapi.com/api/deck/#{deck_id}/draw/?count=2"
+	 response = HTTParty.get(random_card_url)
+	 puts response.body
+
+	 #response["cards"].to_json
+
+	 response_str = "You have drawn"
+	 response["cards"].each do |card|
+		 suit = card["suit"]
+		 value = card["value"]
+		 response_str += " the #{value} of #{suit}, "
+	 end
+	 response_str
+end
+
+# get “/test/giphy-sms/” do
+# 	Giphy::Configuration.configure do |config|
+# 		config.api_key = ENV["GIPHY_API_KEY"]
+# 	end
+# 	result = Giphy.search("lol", {limit: 3 })
+# 	unless result.empty?
+# 		gif = result.first
+# 		gif_url  = gif.orginal_image.gif_url
+#     #{}"<img src ='#{gif_url}' />"
+# 		client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
+#
+# 	  # Include a message here
+# 	  message = "Hi, welcome to SoMath!\n I can respond to who, what, where, when and why. If you're stuck, type help."
+#
+# 	  # this will send a message from any end point
+# 	  client.api.account.messages.create(
+# 	    from: ENV["TWILIO_FROM"],
+# 	    to:  ENV["TEST_NUMBER"],
+# 	    body: message
+# 			media_url: gif_url)
+# 		"Sent message with image <img src ='#{gif_url}' />"
+# 	else
+# 		"I couldn't find a gif for that"
+# 	end
+# end

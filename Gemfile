@@ -6,3 +6,5 @@ gem 'sinatra-contrib'
 gem 'json'
 gem 'twilio-ruby', ">5.0.0"
 gem 'dotenv',:groups => [:development, :test]
+gem 'httparty'
+gem 'giphy'
