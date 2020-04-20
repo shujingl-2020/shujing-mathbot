@@ -162,7 +162,8 @@ def determine_response body
 			return "funny right?"
 	else
 	# Sending unexpected answer to the Slack Channel
-      return send_to_slack body
+      send_to_slack body
+			return "ok"
 	end
 end
 
