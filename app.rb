@@ -240,31 +240,31 @@ get "/test/deckofcards/randomcard" do
 	 response_str
 end
 
-# get “/test/giphy-sms/” do
-# 	Giphy::Configuration.configure do |config|
-# 		config.api_key = ENV["GIPHY_API_KEY"]
-# 	end
-# 	result = Giphy.search("lol", {limit: 3 })
-# 	unless result.empty?
-# 		gif = result.first
-# 		gif_url  = gif.orginal_image.gif_url
-#     #{}"<img src ='#{gif_url}' />"
-# 		client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
-#
-# 	  # Include a message here
-# 	  message = "Hi, welcome to SoMath!\n I can respond to who, what, where, when and why. If you're stuck, type help."
-#
-# 	  # this will send a message from any end point
-# 	  client.api.account.messages.create(
-# 	    from: ENV["TWILIO_FROM"],
-# 	    to:  ENV["TEST_NUMBER"],
-# 	    body: message
-# 			media_url: gif_url)
-# 		"Sent message with image <img src ='#{gif_url}' />"
-# 	else
-# 		"I couldn't find a gif for that"
-# 	end
-# end
+get “/test/giphy-sms/” do
+	Giphy::Configuration.configure do |config|
+		config.api_key = ENV["GIPHY_API_KEY"]
+	end
+	result = Giphy.search("lol", {limit: 3 })
+	unless result.empty?
+		gif = result.first
+		gif_url  = gif.orginal_image.gif_url
+    #{}"<img src ='#{gif_url}' />"
+		client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
+
+	  # Include a message here
+	  message = "Hi, welcome to SoMath!\n I can respond to who, what, where, when and why. If you're stuck, type help."
+
+	  # this will send a message from any end point
+	  client.api.account.messages.create(
+	    from: ENV["TWILIO_FROM"],
+	    to:  ENV["TEST_NUMBER"],
+	    body: message
+			media_url: gif_url)
+		"Sent message with image <img src ='#{gif_url}' />"
+	else
+		"I couldn't find a gif for that"
+	end
+end
 
 def send_to_slack message
 	 slack_webhook = ENV['SLACK_WEBHOOK']
