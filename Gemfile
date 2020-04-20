@@ -3,8 +3,10 @@ source "https://rubygems.org"
 
 gem 'sinatra'
 gem 'sinatra-contrib'
-gem 'json'
-gem 'twilio-ruby', ">5.0.0"
-gem 'dotenv',:groups => [:development, :test]
-gem 'httparty'
-#gem 'giphy'
+gem 'twilio-ruby', '5.33.1'
+gem 'dotenv'
+gem 'httparty', '0.18.0'
+gem 'json', '2.3.0'
+gem 'giphy', '3.0.0'
+gem 'faraday', '0.9'
+gem 'open-weather', '0.11'

@@ -3,7 +3,7 @@ require "sinatra/reloader" if development?
 require 'twilio-ruby'
 require 'json'
 require 'httparty'
-#require 'giphy'
+require 'giphy'
 
 enable :sessions
 
