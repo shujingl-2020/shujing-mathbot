@@ -50,7 +50,6 @@ end
 
 
 
-
 get "/signup" do
 	if not(session['first_name'].nil? || session['number'].nil?)
 		return "Hey #{session['first_name']}, you have signed up. Explore more about the bot!"
@@ -270,6 +269,5 @@ def send_to_slack message
 	 slack_webhook = ENV['SLACK_WEBHOOK']
 	 formatted_message = "*Recently Received:*\n"
 	 formatted_message += "#{message} "
-
 	 HTTParty.post slack_webhook, body: {text: formatted_message.to_s, username: "MyBot" }.to_json, headers: {'content-type' => 'application/json'}
 end
