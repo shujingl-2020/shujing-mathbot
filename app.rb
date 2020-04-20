@@ -240,7 +240,7 @@ get "/test/deckofcards/randomcard" do
 	 response_str
 end
 
-get “/test/giphy-sms/” do
+get "/test/giphy-sms" do
 	Giphy::Configuration.configure do |config|
 		config.api_key = ENV["GIPHY_API_KEY"]
 	end
@@ -258,7 +258,7 @@ get “/test/giphy-sms/” do
 	  client.api.account.messages.create(
 	    from: ENV["TWILIO_FROM"],
 	    to:  ENV["TEST_NUMBER"],
-	    body: message
+	    body: message,
 			media_url: gif_url)
 		"Sent message with image <img src ='#{gif_url}' />"
 	else
