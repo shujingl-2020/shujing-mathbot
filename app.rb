@@ -5,6 +5,8 @@ require 'json'
 require 'httparty'
 require 'giphy'
 require 'open_weather'
+require 'better_errors'
+require 'did_you_mean'
 
 enable :sessions
 
@@ -12,6 +14,17 @@ configure :development do
 	require 'dotenv'
 	Dotenv.load
 end
+
+configure :development do
+  require "better_errors"
+end
+
+configure :development do
+  require 'did_you_mean'
+end
+
+
+
 
 bot_greetings = ["Hey","Welcome","Yo","Nice to see you","What's up!","Good to see you!","Hey there!"]
 morning_greetings = ["Morning","Good morning"]
