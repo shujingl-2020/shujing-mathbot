@@ -16,6 +16,7 @@ configure :development do
 	Dotenv.load
 	require "better_errors"
 	require 'did_you_mean'
+	require 'open-uri'
 end
 
 
@@ -308,7 +309,6 @@ def get_media_response
   end
 
 end
-
 
 get "/top-headlines" do
 	url = 'http://newsapi.org/v2/top-headlines?'\
