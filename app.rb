@@ -4,6 +4,7 @@ require 'twilio-ruby'
 require 'json'
 require 'httparty'
 require 'giphy'
+require 'open_weather'
 
 enable :sessions
 
@@ -136,7 +137,7 @@ def determine_response body
 		return bot_greetings.sample
 	# tell some facts about myself
   elsif match(body, mood_keywords)
-		return get_gif
+		return get_media_response()
 	elsif match(body, who_keywords)
 		return who_response
 	# tell the functionality of the bot
@@ -185,8 +186,9 @@ get "/sms/incoming" do
 
 	sender = params[:From] || ""
 	body = params[:Body] || ""
-  media = nil
+  media = determine_media_response body
 	message = determine_response body
+
 
 	twiml = Twilio::TwiML::MessagingResponse.new do |r|
 		r.message do |m|
@@ -274,7 +276,6 @@ def send_to_slack message
 end
 
 get "/test/giphy/" do
-
   Giphy::Configuration.configure do |config|
     config.api_key = ENV["GIPHY_API_KEY"]
   end
@@ -292,20 +293,18 @@ get "/test/giphy/" do
 
 end
 
-def get_gif
-	Giphy::Configuration.configure do |config|
+
+def get_media_response ()
+  Giphy::Configuration.configure do |config|
     config.api_key = ENV["GIPHY_API_KEY"]
   end
+	results = Giphy.search( "love", { limit: 25 } )
 
-  results = Giphy.search( "hug", { limit: 25 } )
-
-  unless results.empty?
+	unless results.empty?
     gif = results.sample
     gif_url = gif.original_image.url
-    "I found this image: <img src='#{gif_url}' />"
-
+    gif_url
   else
     " I couldn't find a gif for that "
   end
-  return <img src='#{gif_url}' />
 end
