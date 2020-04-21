@@ -7,22 +7,16 @@ require 'giphy'
 require 'open_weather'
 require 'better_errors'
 require 'did_you_mean'
+require 'open-uri'
 
 enable :sessions
 
 configure :development do
 	require 'dotenv'
 	Dotenv.load
+	require "better_errors"
+	require 'did_you_mean'
 end
-
-configure :development do
-  require "better_errors"
-end
-
-configure :development do
-  require 'did_you_mean'
-end
-
 
 
 
@@ -148,9 +142,9 @@ def determine_response body
 	body = body.downcase.strip
 	if match(body, human_greetngs)
 		return bot_greetings.sample
-	# tell some facts about myself
+	# tell some facts about myselfś
   elsif match(body, mood_keywords)
-		return mood_response.sample
+		return get_media_response()
 	elsif match(body, who_keywords)
 		return who_response.sample
 	# tell the functionality of the bot
@@ -203,7 +197,7 @@ get "/sms/incoming" do
 
 	sender = params[:From] || ""
 	body = params[:Body] || ""
-  media = determine_media_response body
+  media = nil
 	message = determine_response body
 
 
@@ -295,36 +289,32 @@ def send_to_slack message
 	 HTTParty.post slack_webhook, body: {text: formatted_message.to_s, username: "Shujing-Bot" }.to_json, headers: {'content-type' => 'application/json'}
 end
 
-get "/test/giphy/" do
+
+
+def get_media_response
   Giphy::Configuration.configure do |config|
     config.api_key = ENV["GIPHY_API_KEY"]
   end
-
-  results = Giphy.search( "lolz", { limit: 25 } )
-
-  unless results.empty?
+	results = Giphy.search( "love", { limit: 25 } )
+	puts "called method here"
+	unless results.empty?
     gif = results.sample
     gif_url = gif.original_image.url
-    "I found this image: <img src='#{gif_url}' />"
-
+		puts "found gif"
+		return "<img src ='#{gif_url}' />"
   else
-    " I couldn't find a gif for that "
+		puts "did not find gif"
+    return " I couldn't find a gif for that "
   end
 
 end
 
 
-def get_media_response ()
-    Giphy::Configuration.configure do |config|
-    config.api_key = ENV["GIPHY_API_KEY"]
-  end
-	results = Giphy.search( "love", { limit: 25 } )
-
-	unless results.empty?
-    gif = results.sample
-    gif_url = gif.original_image.url
-    gif_url
-  else
-    " I couldn't find a gif for that "
-  end
+get "/top-headlines" do
+	url = 'http://newsapi.org/v2/top-headlines?'\
+	      'sources=bbc-news&'\
+	      'apiKey=296debd2b97e4b62b4730dd856f7a132'
+	req = open(url)
+	response_body = req.read
+	return response_body
 end
