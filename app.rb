@@ -295,7 +295,7 @@ end
 
 
 def get_media_response ()
-  Giphy::Configuration.configure do |config|
+    Giphy::Configuration.configure do |config|
     config.api_key = ENV["GIPHY_API_KEY"]
   end
 	results = Giphy.search( "love", { limit: 25 } )
