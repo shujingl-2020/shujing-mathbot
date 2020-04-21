@@ -145,7 +145,7 @@ def determine_response body
 		return bot_greetings.sample
 	# tell some facts about myselfś
   elsif match(body, mood_keywords)
-		return get_media_response()
+		return mood_response.sample
 	elsif match(body, who_keywords)
 		return who_response.sample
 	# tell the functionality of the bot
@@ -173,6 +173,10 @@ def determine_response body
 		options = { units: "metric", APPID: ENV["OPENWEATHER_API_KEY"] }
 	  response = OpenWeather::Current.city("Pittsburgh, PA", options)
 	  return response.to_s
+	elsif body == "image"
+		return determine_media_response body
+	elsif body == "news"
+		return get_news
 	else
 	# Sending unexpected answer to the Slack Channel
       send_to_slack body
@@ -198,9 +202,8 @@ get "/sms/incoming" do
 
 	sender = params[:From] || ""
 	body = params[:Body] || ""
-  media = nil
+  media = determine_media_response body
 	message = determine_response body
-
 
 	twiml = Twilio::TwiML::MessagingResponse.new do |r|
 		r.message do |m|
@@ -213,9 +216,7 @@ get "/sms/incoming" do
    session[:counter] += 1
 	 content_type 'text/xml'
 	 twiml.to_s
-end
-
-
+ end
 
 
 get "/test/sms" do
@@ -257,31 +258,7 @@ get "/test/deckofcards/randomcard" do
 	 response_str
 end
 
-get "/test/giphy-sms/" do
-	Giphy::Configuration.configure do |config|
-		config.api_key = ENV["GIPHY_API_KEY"]
-	end
-	result = Giphy.search("lol", {limit: 3 })
-	unless result.empty?
-		gif = result.first
-		gif_url  = gif.orginal_image.gif_url
-    #{}"<img src ='#{gif_url}' />"
-		client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
 
-	  # Include a message here
-	  message = "Hi, welcome to SoMath!\n I can respond to who, what, where, when and why. If you're stuck, type help."
-
-	  # this will send a message from any end point
-	  client.api.account.messages.create(
-	    from: ENV["TWILIO_FROM"],
-	    to:  ENV["TEST_NUMBER"],
-	    body: message,
-			media_url: gif_url)
-		"Sent message with image <img src ='#{gif_url}' />"
-	else
-		"I couldn't find a gif for that"
-	end
-end
 
 def send_to_slack message
 	 slack_webhook = ENV['SLACK_WEBHOOK']
@@ -292,23 +269,39 @@ end
 
 
 
-def get_media_response
-  Giphy::Configuration.configure do |config|
-    config.api_key = ENV["GIPHY_API_KEY"]
-  end
-	results = Giphy.search( "love", { limit: 25 } )
-	puts "called method here"
-	unless results.empty?
-    gif = results.sample
-    gif_url = gif.original_image.url
-		puts "found gif"
-		return "<img src ='#{gif_url}' />"
-  else
-		puts "did not find gif"
-    return " I couldn't find a gif for that "
-  end
+def determine_media_response body
+	q = body.to_s.downcase.strip
 
+Giphy::Configuration.configure do |config|
+	config.api_key = ENV["GIPHY_API_KEY"]
 end
+
+if q == "image"
+	giphy_search = "hello"
+else
+	giphy_search = nil
+end
+
+unless giphy_search.nil?
+	results = Giphy.search( giphy_search, { limit: 25 } )
+	unless results.empty?
+		gif = results.sample.fixed_width_downsampled_image.url.to_s
+		return gif
+	end
+end
+nil
+end
+
+
+def get_news
+	url = 'http://newsapi.org/v2/top-headlines?'\
+	      'sources=bbc-news&'\
+	      'apiKey=296debd2b97e4b62b4730dd856f7a132'
+	req = open(url)
+	response_body = req.read
+	return response_body
+end
+
 
 get "/top-headlines" do
 	url = 'http://newsapi.org/v2/top-headlines?'\
