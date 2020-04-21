@@ -139,7 +139,7 @@ def determine_response body
   elsif match(body, mood_keywords)
 		return get_media_response()
 	elsif match(body, who_keywords)
-		return who_response
+		return who_response.sample
 	# tell the functionality of the bot
   elsif match(body, feature_keywords)
 		return feature_response
@@ -161,6 +161,10 @@ def determine_response body
 	# react to the user after they see the joke
   elsif match(body, fun_keywords)
 			return "funny right?"
+	elsif body == "pittsburgh"
+		options = { units: "metric", APPID: ENV["OPENWEATHER_API_KEY"] }
+	  response = OpenWeather::Current.city("Pittsburgh, PA", options)
+	  return response.to_s
 	else
 	# Sending unexpected answer to the Slack Channel
       send_to_slack body
@@ -202,6 +206,9 @@ get "/sms/incoming" do
 	 content_type 'text/xml'
 	 twiml.to_s
 end
+
+
+
 
 get "/test/sms" do
   # code to check parameters
