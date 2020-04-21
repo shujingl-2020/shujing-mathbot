@@ -176,7 +176,7 @@ def determine_response body
 	elsif body == "image"
 		return determine_media_response body
 	elsif body == "news"
-		return get_news
+		return get_news body
 	else
 	# Sending unexpected answer to the Slack Channel
       send_to_slack body
@@ -293,13 +293,17 @@ nil
 end
 
 
-def get_news
+def get_news body
+ if body == "news"
 	url = 'http://newsapi.org/v2/top-headlines?'\
 	      'sources=bbc-news&'\
 	      'apiKey=296debd2b97e4b62b4730dd856f7a132'
 	req = open(url)
 	response_body = req.read
 	return response_body
+ else
+	 return  "no news"
+ end
 end
 
 
