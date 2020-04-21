@@ -136,7 +136,7 @@ def determine_response body
 		return bot_greetings.sample
 	# tell some facts about myself
   elsif match(body, mood_keywords)
-		return mood_response.sample
+		return get_gif
 	elsif match(body, who_keywords)
 		return who_response
 	# tell the functionality of the bot
@@ -240,7 +240,7 @@ get "/test/deckofcards/randomcard" do
 	 response_str
 end
 
-get "/test/giphy-sms" do
+get "/test/giphy-sms/" do
 	Giphy::Configuration.configure do |config|
 		config.api_key = ENV["GIPHY_API_KEY"]
 	end
@@ -271,4 +271,41 @@ def send_to_slack message
 	 formatted_message = "*Recently Received:*\n"
 	 formatted_message += "#{message} "
 	 HTTParty.post slack_webhook, body: {text: formatted_message.to_s, username: "Shujing-Bot" }.to_json, headers: {'content-type' => 'application/json'}
+end
+
+get "/test/giphy/" do
+
+  Giphy::Configuration.configure do |config|
+    config.api_key = ENV["GIPHY_API_KEY"]
+  end
+
+  results = Giphy.search( "lolz", { limit: 25 } )
+
+  unless results.empty?
+    gif = results.sample
+    gif_url = gif.original_image.url
+    "I found this image: <img src='#{gif_url}' />"
+
+  else
+    " I couldn't find a gif for that "
+  end
+
+end
+
+def get_gif
+	Giphy::Configuration.configure do |config|
+    config.api_key = ENV["GIPHY_API_KEY"]
+  end
+
+  results = Giphy.search( "hug", { limit: 25 } )
+
+  unless results.empty?
+    gif = results.sample
+    gif_url = gif.original_image.url
+    "I found this image: <img src='#{gif_url}' />"
+
+  else
+    " I couldn't find a gif for that "
+  end
+  return <img src='#{gif_url}' />
 end
