@@ -137,7 +137,7 @@ def determine_response body
 		return bot_greetings.sample
 	# tell some facts about myself
   elsif match(body, mood_keywords)
-		return get_media_response()
+		return mood_response.sample
 	elsif match(body, who_keywords)
 		return who_response.sample
 	# tell the functionality of the bot
