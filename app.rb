@@ -272,7 +272,7 @@ elsif session["last_intent"] == "transposed_equation"
 		  session["last_intent"] = "get_x_value"
 	 	 return y_value_wrong_feedback  + value_of_y
 	 end
-
+end
 end
 
 
