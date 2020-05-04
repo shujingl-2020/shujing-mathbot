@@ -228,7 +228,11 @@ body = body.downcase.strip
 
 	#confirmation for challenges
   elsif match(body, human_yes_challenge)
-		return math_problem + variable_prompt + variable1
+		send_sms_to sender, math_problem
+		sleep(3)
+		send_sms_to sender, variable_prompt
+		sleep(3)
+		return variable1
 
 	# check if the user input of variable1 is valid
 	elsif checkVariable1 body
