@@ -21,88 +21,6 @@ end
 
 
 
-bot_greetings = ["Hey","Welcome","Yo","Nice to see you","What's up!","Good to see you!","Hey there!"]
-morning_greetings = ["Morning","Good morning"]
-afternoon_greetings = ["Afternoon","Good afternoon"]
-evening_greetings = ["Evening","Good evening"]
-code = "sofronia"
-
-get "/" do
-	redirect "/about"
-end
-
-
-get "/about" do
-	session["visits"] ||= 0 # Set the session to 0 if it hasn't been set before
-	session["visits"] = session["visits"] + 1
-	# adds one to the current value (increments)
-  time = Time.now
-	if time.hour >= 0 && time.hour < 12
-	    timed_greeting = morning_greetings.sample
-	elsif time.hour >= 12 && time.hour <= 18
-		 	timed_greeting = afternoon_greetings.sample
-	else
-			timed_greeting = evening_greetings.sample
-	end
-  welcome = "#{timed_greeting} #{bot_greetings.sample}"
-	description =  "This is a mathbot!"
-	welcomeback = "#{timed_greeting}! #{bot_greetings.sample} #{session["first_name"]}"
-	timeFormat = time.strftime("%A %B %d, %Y %H:%M")
-	visit = "My app can help you solve math problems! You have visited #{session["visits"]} times as of #{timeFormat}"
-	if session["first_name"].nil?
-		 welcome + "<br/>" + description +  "<br/>" +  visit
-	else
-		welcomeback + "<br/>" + description  + "<br/>" + visit
-	end
-	#ENV["TWILIO_FROM"]
-end
-
-
-
-get "/signup" do
-	if not(session['first_name'].nil? || session['number'].nil?)
-		return "Hey #{session['first_name']}, you have signed up. Explore more about the bot!"
-	elsif params["code"].nil? || params["code"] != code
-		403
-	else
-		erb :signup
-	end
-end
-
-
-post "/signup" do
-	if params["code"].nil? || params["code"] != code
-		403
-	elsif params['first_name'].nil? || params['number'].nil?
-		"Sorry.You haven't provided all the required information"
-	else
-			session['first_name'] = params['first_name']
-			session['number'] = params['number']
-			return "Thank you for signing up! You will receive a text message in a few minutes from the bot."
-	end
-end
-
-get "/signup/:first_name/:number" do
-	session["first_name"] = params["first_name"]
-	session["number"] = params["number"]
-	"Your enter your name: " + params["first_name"] + ' and your number: ' + params["number"]
-end
-
-
-get '/check' do
-  # if the session variable value contains a value
-	# display it in the root endpoint
-  "value = " << session[:value].inspect
-end
-
-get'/try/:value' do
-	session["value"] = params["value"]
-end
-
-get "/incoming/sms" do
-	403
-end
-
 
 # function that can handle different user inputs
 def match (body, keywords)
@@ -308,18 +226,6 @@ end
 
 
 
-get "/test/conversation" do
-	if params[:Body].nil? || params[:From].nil? #check if parameters are blank
-		return "Sorry, I am not sure I understand.\n Try type in some messages and your phone number."
-	else
-		determine_response params[:Body]
-	end
-end
-
-error 403 do
-	"Access Forbidden"
-end
-
 
 get "/sms/incoming" do
 	session[:counter] ||= 0
@@ -354,55 +260,6 @@ get "/sms/incoming" do
 ​
 end
 
-
-
-get "/test/sms" do
-  # code to check parameters
-	#...
-  client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
-
-  # Include a message here
-  message = "Hi, welcome to SoMath!\n I can respond to who, what, where, when and why. If you're stuck, type help."
-
-  # this will send a message from any end point
-  client.api.account.messages.create(
-    from: ENV["TWILIO_FROM"],
-    to:  ENV["TEST_NUMBER"],
-    body: message
-  )
-	# response if eveything is OK
-	"You're signed up. You'll receive a text message in a few minutes from the bot. "
-end
-
-get "/test/deckofcards/randomcard" do
-	 response = HTTParty.get("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
-	 puts response.body
-
-	 deck_id = response["deck_id"]
-	 puts "Deck id is #{deck_id}"
-   random_card_url = "https://deckofcardsapi.com/api/deck/#{deck_id}/draw/?count=2"
-	 response = HTTParty.get(random_card_url)
-	 puts response.body
-
-	 #response["cards"].to_json
-
-	 response_str = "You have drawn"
-	 response["cards"].each do |card|
-		 suit = card["suit"]
-		 value = card["value"]
-		 response_str += " the #{value} of #{suit}, "
-	 end
-	 response_str
-end
-
-
-
-def send_to_slack message
-	 slack_webhook = ENV['SLACK_WEBHOOK']
-	 formatted_message = "*Recently Received:*\n"
-	 formatted_message += "#{message} "
-	 HTTParty.post slack_webhook, body: {text: formatted_message.to_s, username: "Shujing-Bot" }.to_json, headers: {'content-type' => 'application/json'}
-end
 
 
 
