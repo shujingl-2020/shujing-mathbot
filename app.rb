@@ -232,7 +232,7 @@ body = body.downcase.strip
 		sleep(3)
 		send_sms_to sender, variable_prompt
 		sleep(3)
-		return variable1
+	return variable1
 
 	# check if the user input of variable1 is valid
 	elsif checkVariable1 body
@@ -346,6 +346,25 @@ get "/sms/incoming" do
 	 content_type 'text/xml'
 	 twiml.to_s
  end
+
+
+
+ def send_sms_to message, body
+ ​
+   client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
+ ​
+   message = "This is a new message from Twilio!\n\nIt works"
+ ​
+   # this will send a message from any end point
+   client.api.account.messages.create(
+     from: ENV["TWILIO_FROM"],
+     to: body,
+     body: message
+   )
+
+ end
+
+
 
 
 get "/test/sms" do
