@@ -131,7 +131,7 @@ def checkVariable2 (body,variable1)
 end
 
 
-def determine_response body
+def determine_response body, sender
 
  # user input
 	human_greetngs = ["hi","what's up","hello","hi there","what can you do"]
@@ -332,7 +332,7 @@ get "/sms/incoming" do
 	sender = params[:From] || ""
 	body = params[:Body] || ""
   media = determine_media_response body
-	message = determine_response body
+	message = determine_response body, sender
 
 	twiml = Twilio::TwiML::MessagingResponse.new do |r|
 		r.message do |m|
