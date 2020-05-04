@@ -116,73 +116,198 @@ def match (body, keywords)
 end
 
 
+var = "12344"
+puts var.length
+
+def checkVariable1 body
+	body = body.downcase.strip
+	return (body.size == 1 and body.count("a-z") > 0)
+end
+
+
+def checkVariable2 (body,variable1)
+	body = body.downcase.strip
+	return (body.size == 1 and body.count("a-z") > 0 and body!= variable1)
+end
+
+
 def determine_response body
 
-	human_greetngs = ["hi","what's up","hello","hi there"]
-	feature_keywords = ["what","features","cool functions"]
-	who_keywords = ["who"]
-	where_keywords = ["where"]
-	when_keywords = ["when","what time"]
-	why_keywords = ["why"]
-	joke_keywords = ["joke","tell me a joke","another one","next"]
-	fact_keywords = ["fact","facts"]
-	fun_keywords = ["haha","lol","so funny"]
-	mood_keywords = ["sad","boring","lonely"]
+ # user input
+	human_greetngs = ["hi","what's up","hello","hi there","what can you do"]
+	human_yes_challenge = ["yes","ready","I'm ready"]
+	human_no_challenge = ["no","not ready","maybe next time"]
+	human_yes_variable1 = ["yes","correct","no problem"]
+	human_yes_variable2 = ["yes","correct","no problem"]
+	human_no_variable1 = ["no","another","not correct","incorrect"]
+	human_no_variable2 = ["no","another","not correct","incorrect"]
 
 
 	# store chatbot responses into variables
-	bot_greetings = ["Hey!","Welcome!","Yo!","Nice to see you!","What's up!","Good to see you!","Hey there!"]
-	error_message =  "Sorry, I am not sure I understand. I can only respond to commands hi, what, who, where, when, and why."
-	feature_response = "This is a bot that can help you learn more about me! 🤖\n Just type in some commands such as where, what, why"
-	why_response = "It was made for a class project for Programming for online prototypes. \n I want to use this opportunity to introduce myself more easily."
-	who_response = "My name is Shujing Lin. I am a METALS student at CMU."
-	where_response = "I am in Pittsburgh now!"
-	when_response = "I am available on weekends"
-	mood_response = ['I am here for you.','I will always be with you', "I love you 🥰"]
+	bot_greetings = "Welcome! This is Sharia, your math agent! I can give you guidance in solving systems of equations! Are you ready to have some math challenges today?"
+	error_message = "Sorry, I am not sure I understand."
+  math_problem = "Great! Here is the problem for today: \n In 2018, the median annual income of black women is approximately 60% of that of white men. \n John is a white man and Jasmine is a black woman. \n Both of them happened to have an annual income that equals the median income of their groups in 2018. \n John made $20,000 more than Jasmine. \n Questions: How much did John make in 2018? \n How much did Jasmine make in 2018?"
 
-	body = body.downcase.strip
+  # define variables
+	variable_prompt = "\n It's a little complicated, right? We can break down the problem a little bit. \n Firstly, it will be helpful if we translate the word problem into equations. \n Let's define variables first. "
+	variable1 = "What letter would you like to use as a representation for John?"
+	variable2 = "What letter would you like to use as a representation for Jasmine?"
+	variable1_confirmation = "OK.Use #{body} to stand for John, is that correct?"
+	variable2_confirmation  = "Got it! Use #{body} to represent Jasmine, is that correct?"
+	variable_correction = "Please use a letter from a to z for variables"
+
+  #write equations
+	# first equation
+	equation1 = "So let's recall the first part. \n In 2018, the median annual income of black women is approximately 60% of that of white men. \n John is a white man and Jasmine is a black woman. \n What equation with variables can we generate according to this condition?"
+  equation1options = "\n 1. y = 0.6x \n 2.x = 0.6y"
+	no_challenge_response = "Alright. Maybe you can come back later. Let me know when you are ready."
+	correct_choice_equation1 = "1"
+	wrong_choice_equation1 = "2"
+  correct_feedback = ["Great! You got it correct!", "Good job!", "Exactly", "That's correct!"]
+	equation1_feedback_wrong = "Are you sure? \n x represents John(white man) and y represents Jasmine(black woman). \n y's income is 60% of that of x's. \n Let's try again. "
+  #second equation
+  equation2 = "Now let's work on the second equation. \n What can you get from the condition 'John made $20,000 more than Jasmine'?"
+  equation2_options = "\n 1. y = x + 20000 \n 2.y = x - 20000"
+	correct_choice_equation2 = "2"
+	wrong_choice_equation2 = "1"
+  equation2_feedback_wrong = "Are you sure? Think about whose money is less. Let's do it again. \n"
+
+
+	#eliminate variable
+  eliminate_variable_1 = "OK. Now we get the first equation y = 0.6x  and the second equation y = x + 20000.  What can we do next? "
+	eliminate_variable_2 = "Let's substitute y in the second equation with x to eliminate one variable. What equation can we get combining the two equations? "
+  eliminate_variable_options = "\n 1. 0.6x = x - 20000  \n 2.0.6x = x + 20000"
+	eliminate_wrong_feedback = "That's not correct! \n we got y = 0.6x and y = x - 20000. \n What do you get if we substitute the y with 0.6x in equation 2?"
+	correct_choice_eliminate = "1"
+	wrong_choice_eliminate = "2"
+
+# transpose equation
+   transpose = "Now let's try to get x to one side of the equation. \n What do we get if we move x to one side?"
+	 transpose_options = "1. x + 0.6x = 20000 \n  2. 0.6x - x = -20000"
+	 correct_choice_transpose = "2"
+ 	 wrong_choice_transpose = "1"
+	 transpose_wrong_feedback = "That's not correct! \n  That's not correct! We should change sign if we move an element to the other side of the equation. \n Let's try again."
+
+
+# get the equation
+  get_transposed_equation = "What is the equation that we can get after transposing? "
+	get_transposed_equation_options = "\n 1. 0.4x = 20000 \n 2. -0.4x  = 20000"
+	correct_choice_transposed_equation = "1"
+	wrong_choice_transposed_equation = "2"
+	transposed_equation_wrong_feedback = "That's not correct! \n Let's think about it in this way: \n (0.6-1) x = -20000, then we divide (-1) in both sides."
+
+
+# get the value of x
+  value_of_x  = "So what is the value of x that we can get by solving the equation? "
+	x_value = "50000"
+  x_value_wrong_feedback = "That's not correct! \n We should try to get the coefficient of x 1 by dividing both sides by 0.4, then we get x = 2000/0.4. \n You can calculate it on your own or use a calculator.\n Let's try again"
+
+
+# get the value of  y
+ value_of_y = "So, what is the value of y?"
+ y_value_wrong_feedback = "That's not correct! \n Now that we have the equation y = 0.6x and value of x, we can substitute the x with the value and get the value of y! \n Let's try again."
+
+
+
+# process of solving systems of equations
+
+proncess = "Congratulations! You have finished the challenge! \n So let's recall the process of solving systems of equations word problems:
+\n 1. define variables
+\n 2. get the two equations
+\n 3. eliminate one variable by combining the two equations
+\n 4. solve the equation to get the value of x
+\n 5. put the value back to the equation to get the value of the other variable."
+
+
+
+body = body.downcase.strip
+# happy path
+  # first step. introduction
 	if match(body, human_greetngs)
-		return bot_greetings.sample
-	# tell some facts about myselfś
-  elsif match(body, mood_keywords)
-		return mood_response.sample
-	elsif match(body, who_keywords)
-		return who_response.sample
+		return bot_greetings
+
+	#confirmation for challenges
+  elsif match(body, human_yes_challenge)
+		return math_problem + variable_prompt + variable1
+
+	# check if the user input of variable1 is valid
+	elsif checkVariable1 body
+		return variable1_confirmation
+  elsif not checkVariable1 body
+		return variable_correction
+
+	# confirm variable
+  elsif match(body, human_yes_variable1)
+		return variable2
+  elsif match(body, human_no_variable1)
+		return variable1
+
+	# check if the user input of variable2 is valid
+	elsif checkVariable2(body,variable1)
+		return variable2_confirmation
+	elsif not checkVariable2(body,variable1)
+		return variable2
+	elsif match(body, human_yes_variable2)
+		return equation1 + equation1options
+	elsif match(body, human_no_variable2)
+		return variable2
+
+ 	# check if the user's choice of equation1 is correct
+ elsif body == correct_choice_equation1
+		return correct_feedback.sample + equation2 + equation2_options
+	elsif body == wrong_choice_equation1
+		return equation2_feedback_wrong + equation1 + equation1options
+
+
+		# check if the user's choice of equation2 is correct
+	elsif body == correct_choice_equation2
+		 return correct_feedback.sample + eliminate_variable_1 + eliminate_variable_2
+	 elsif body == wrong_choice_equation2
+		 return equation2_feedback_wrong + equation2 + equation2_options
+
+#elinimate variable
+elsif body == correct_choice_eliminate
+	 return correct_feedback.sample + transpose + transpose_options
+ elsif body == wrong_choice_eliminate
+	 return eliminate_wrong_feedack + eliminate_variable_1 + eliminate_variable_2 + eliminate_variable_options
+
+
+# transpose the equation
+elsif body == correct_choice_transpose
+	return correct_feedback.sample + get_transposed_equation + get_transposed_equation_options
+elsif body == wrong_choice_transpose
+	return transpose_wrong_feedback + transpose + transpose_options
+
+
+	# get transposed equation
+ elsif body == correct_choice_transposed_equation
+		return correct_feedback.sample + value_of_x
+	elsif body == wrong_choice_transposed_equation
+		return transposed_equation_wrong_feedback + get_transposed_equation + get_transposed_equation_options
+
+# get the value of x
+elsif body == x_value
+	 return correct_feedback.sample + value_of_y
+ elsif not body == x_value
+	 return x_value_wrong_feedback + value_of_x
+
+
+	 # get the value of y
+ elsif body == y_value
+	 	 return correct_feedback.sample + process
+	 elsif not body == y_value
+	 	 return y_value_wrong_feedback  + value_of_y
+
+  # response for user rejection of challenge
+  elsif match(body, human_no_challenge)
+		return no_challenge_response
 	# tell the functionality of the bot
-  elsif match(body, feature_keywords)
-		return feature_response
-# tell my location
-	elsif match(body, where_keywords)
-		return where_response
-	elsif match(body, when_keywords)
-		return  when_response
-	elsif match(body, why_keywords)
-		return why_response
-# return a random joke
-	elsif match(body, joke_keywords)
-			array_of_lines = IO.readlines("jokes.txt")
-			return array_of_lines.sample.strip()
-	# return a random fact about me
-	elsif match(body, fact_keywords)
-			array_of_lines_fact = IO.readlines("facts.txt")
-			return array_of_lines_fact.sample.strip()
-	# react to the user after they see the joke
-  elsif match(body, fun_keywords)
-			return "funny right?"
-	elsif body == "pittsburgh"
-		options = { units: "metric", APPID: ENV["OPENWEATHER_API_KEY"] }
-	  response = OpenWeather::Current.city("Pittsburgh, PA", options)
-	  return response.to_s
-	elsif body == "image"
-		return determine_media_response body
-	elsif body == "news"
-		return get_news body
-	else
-	# Sending unexpected answer to the Slack Channel
-      send_to_slack body
-			return "ok"
-	end
+	 end
 end
+
+
+
+
 
 get "/test/conversation" do
 	if params[:Body].nil? || params[:From].nil? #check if parameters are blank
@@ -290,28 +415,4 @@ unless giphy_search.nil?
 	end
 end
 nil
-end
-
-
-def get_news body
- if body == "news"
-	url = 'http://newsapi.org/v2/top-headlines?'\
-	      'sources=bbc-news&'\
-	      'apiKey=296debd2b97e4b62b4730dd856f7a132'
-	req = open(url)
-	response_body = req.read
-	return response_body
- else
-	 return  "no news"
- end
-end
-
-
-get "/top-headlines" do
-	url = 'http://newsapi.org/v2/top-headlines?'\
-	      'sources=bbc-news&'\
-	      'apiKey=296debd2b97e4b62b4730dd856f7a132'
-	req = open(url)
-	response_body = req.read
-	return response_body
 end
