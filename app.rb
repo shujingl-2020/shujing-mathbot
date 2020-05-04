@@ -116,9 +116,6 @@ def match (body, keywords)
 end
 
 
-var = "12344"
-puts var.length
-
 def checkVariable1 body
 	body = body.downcase.strip
 	return (body.size == 1 and body.count("a-z") > 0)
@@ -229,9 +226,9 @@ body = body.downcase.strip
 	#confirmation for challenges
   elsif match(body, human_yes_challenge)
 		send_sms_to sender, math_problem
-		sleep(3)
+	  	sleep(3)
 		send_sms_to sender, variable_prompt
-		sleep(3)
+		  sleep(3)
 	return variable1
 
 	# check if the user input of variable1 is valid
@@ -311,8 +308,6 @@ end
 
 
 
-
-
 get "/test/conversation" do
 	if params[:Body].nil? || params[:From].nil? #check if parameters are blank
 		return "Sorry, I am not sure I understand.\n Try type in some messages and your phone number."
@@ -349,21 +344,15 @@ get "/sms/incoming" do
 
 
 
- def send_sms_to message, body
- ​
-   client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
- ​
-   message = "This is a new message from Twilio!\n\nIt works"
- ​
-   # this will send a message from any end point
-   client.api.account.messages.create(
-     from: ENV["TWILIO_FROM"],
-     to: body,
-     body: message
-   )
-
- end
-
+ def send_sms_to send_to, message
+ client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
+ client.api.account.messages.create(
+   from: ENV["TWILIO_FROM"],
+   to: send_to,
+   body: message
+ )
+​
+end
 
 
 
