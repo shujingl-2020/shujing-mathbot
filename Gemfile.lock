@@ -41,7 +41,6 @@ GEM
     multipart-post (2.1.1)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
-    news-api (0.2.0)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     oj (3.10.6)
@@ -81,7 +80,6 @@ DEPENDENCIES
   giphy (= 3.0.0)
   httparty (= 0.18.0)
   json (= 2.3.0)
-  news-api
   open-weather (= 0.11)
   sinatra
   sinatra-contrib

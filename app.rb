@@ -7,7 +7,6 @@ require 'giphy'
 require 'open_weather'
 require 'better_errors'
 require 'did_you_mean'
-require 'open-uri'
 
 enable :sessions
 
@@ -16,7 +15,6 @@ configure :development do
 	Dotenv.load
 	require "better_errors"
 	require 'did_you_mean'
-	require 'open-uri'
 end
 
 
