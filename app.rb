@@ -119,11 +119,11 @@ body = body.downcase.strip
 elsif session["last_intent"] == "greeting"
 	 if match(body, human_yes_challenge)
 		session["last_intent"] = "math_challenge"
-		send_sms_to sender, math_problem
-		sleep(1)
-		send_sms_to sender, variable_prompt
-		sleep(3)
-	  return variable1
+		# send_sms_to sender, math_problem
+		# sleep(1)
+		# send_sms_to sender, variable_prompt
+		# sleep(3)
+	  return math_problem + variable_prompt + variable1
 	else
 		session["last_intent"] = nil
 		return no_challenge_response
