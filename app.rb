@@ -96,7 +96,7 @@ session["variable2"] ||= nil
 
 
 # get the equation
-  get_transposed_equation = "What is the equation that we can get after transposing? "
+  get_transposed_equation = "  What is the equation that we can get after transposing? "
 	correct_choice_transposed_equation = "1"
 	wrong_choice_transposed_equation = "2"
 
@@ -105,7 +105,7 @@ session["variable2"] ||= nil
 	x_value = "50000"
 
 # get the value of  y
-
+ y_value = "30000"
 
 # process of solving systems of equations
 
@@ -191,9 +191,10 @@ end
 elsif session["last_intent"] == "equation1"
 	if body == correct_choice_equation2
 		 session["last_intent"] = "equation2"
-		 return correct_feedback.sample + "OK. Now we get the first equation #{session["variable2"]} = 0.6 #{session["variable1"]} and the second equation #{session["variable2"]} = #{session["variable1"]} + 20000.  What can we do next? "+ "Let's substitute y in the second equation with x to eliminate one variable. What equation can we get combining the two equations? " + "\n 1.  0.6  #{session["variable1"]} =  #{session["variable1"]} - 2000 \n  2. 0.6 #{session["variable1"]} =  #{session["variable1"]} + 2000"
+		 return correct_feedback.sample + " OK. Now we get the first equation #{session["variable2"]} = 0.6 #{session["variable1"]} and the second equation #{session["variable2"]} = #{session["variable1"]} + 20000.  What can we do next? "+ "Let's substitute y in the second equation with x to eliminate one variable. What equation can we get combining the two equations? " + "\n 1.  0.6  #{session["variable1"]} =  #{session["variable1"]} - 2000 \n  2. 0.6 #{session["variable1"]} =  #{session["variable1"]} + 2000"
+	else
 		session["last_intent"] = "equation1"
-		return  "Are you sure? Think about whose money is less. Let's do it again. \n"+"\n Now let's work on the second equation. \n What can you get from the condition 'John made $20,000 more than Jasmine'?"+"\n 1. #{session["variable2"]} = #{session["variable1"]} + 20000 \n  2.#{session["variable2"]} = #{session["variable1"]} - 20000"
+		return  "Are you sure? Think about whose money is less. Let's do it again."+"\n Now let's work on the second equation. \n What can you get from the condition 'John made $20,000 more than Jasmine'?"+"\n 1. #{session["variable2"]} = #{session["variable1"]} + 20000 \n  2.#{session["variable2"]} = #{session["variable1"]} - 20000"
 end
 
 #elinimate variable
@@ -203,17 +204,16 @@ elsif session["last_intent"] == "equation2"
 	 return correct_feedback.sample + "\n Now let's try to get  #{session["variable1"]} to one side of the equation. \n What do we get if we move  #{session["variable1"]} to one side?"+"\n 1.  #{session["variable1"]} + 0.6  #{session["variable1"]} = 20000 \n  2. 0.6  #{session["variable1"]} -  #{session["variable1"]} = -20000"
  else
 	 session["last_intent"] = "equation2"
-	 return "That's not correct! \n we got  #{session["variable2"]} = 0.6 #{session["variable1"]} and  #{session["variable2"]} =  #{session["variable1"]} - 20000. \n What do you get if we substitute the  #{session["variable2"]} with 0.6  #{session["variable1"]} in equation 2?" + "\n Now let's try to get  #{session["variable1"]} to one side of the equation. \n What do we get if we move  #{session["variable1"]} to one side?" + "\n 1.  #{session["variable1"]} + 0.6  #{session["variable1"]} = 20000 \n  2. 0.6  #{session["variable1"]} -  #{session["variable1"]} = -20000"
+	 return "That's not correct! \n we got  #{session["variable2"]} = 0.6 #{session["variable1"]} and  #{session["variable2"]} =  #{session["variable1"]} - 20000. \n What do you get if we substitute the  #{session["variable2"]} with 0.6  #{session["variable1"]} in equation 2? Let's try again." + "Now we get the first equation #{session["variable2"]} = 0.6 #{session["variable1"]} and the second equation #{session["variable2"]} = #{session["variable1"]} + 20000.  What can we do next? "+ "Let's substitute y in the second equation with x to eliminate one variable. What equation can we get combining the two equations? " + "\n 1.  0.6  #{session["variable1"]} =  #{session["variable1"]} - 2000 \n  2. 0.6 #{session["variable1"]} =  #{session["variable1"]} + 2000"
  end
 # transpose the equation
-
 elsif session["last_intent"] == "eliminate_variable"
 	if body == correct_choice_transpose
 	session["last_intent"] = "transpose"
 	return correct_feedback.sample + get_transposed_equation + "\n 1. 0.4  #{session["variable1"]} = 20000 \n 2. -0.4  #{session["variable1"]}  = 20000"
  else
 	session["last_intent"] = "eliminate_variable"
-	return transpose_wrong_feedback + transpose + transpose_options
+	return transpose_wrong_feedback + "\n Now let's try to get  #{session["variable1"]} to one side of the equation. \n What do we get if we move  #{session["variable1"]} to one side?"+"\n 1.  #{session["variable1"]} + 0.6  #{session["variable1"]} = 20000 \n  2. 0.6  #{session["variable1"]} -  #{session["variable1"]} = -20000"
 end
 
 	# get transposed equation
@@ -224,15 +224,14 @@ elsif session["last_intent"] == "transpose"
 
   else
 		 session["last_intent"] = "transpose"
-		return "That's not correct! \n Let's think about it in this way: \n (0.6-1)  #{session["variable1"]} = -20000, then we divide (-1) in both sides."
- + get_transposed_equation + get_transposed_equation_options
+		return "Not quite right. \n Let's think about it in this way: \n (0.6-1)  #{session["variable1"]} = -20000, then we divide (-1) in both sides. Let's try again. "+ get_transposed_equation + get_transposed_equation_options
 end
 
 # get the value of x
 elsif session["last_intent"] == "transposed_equation"
 	if body == x_value
   	session["last_intent"] = "get_x_value"
-	  return correct_feedback.sample + "So, what is the value of  #{session["variable2"]} ?"
+	  return correct_feedback.sample + " What is the value of  #{session["variable2"]} ?"
 
   else
 	 session["last_intent"] = "transposed_equation"
