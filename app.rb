@@ -52,10 +52,10 @@ session["variable2"] ||= nil
 
  # user input
 	human_greetngs = ["hi","what's up","hello","hi there","what can you do"]
-	human_yes_challenge = ["yes","ready","I'm ready","sure"]
+	human_yes_challenge = ["yes", "yup", "ready","I'm ready","sure"]
 	human_no_challenge = ["no","not ready","maybe next time"]
-	human_yes_variable1 = ["yes","correct","no problem"]
-	human_yes_variable2 = ["yes","correct","no problem"]
+	human_yes_variable1 = ["yes","correct","no problem","yup"]
+	human_yes_variable2 = ["yes","correct","no problem","yup"]
 	human_no_variable1 = ["no","another","not correct","incorrect"]
 	human_no_variable2 = ["no","another","not correct","incorrect"]
 
@@ -79,7 +79,7 @@ session["variable2"] ||= nil
 	no_challenge_response = "Alright. Maybe you can come back later. Let me know when you are ready."
 	correct_choice_equation1 = "1"
 	wrong_choice_equation1 = "2"
-  correct_feedback = ["Great! You got it correct!", "Good job!", "Exactly", "That's correct!"]
+  correct_feedback = ["Great! You got it correct!", "Correct!", "You got it right!", "Good job!", "Exactly!", "That's correct!"]
 
   #second equation
 	correct_choice_equation2 = "2"
@@ -191,8 +191,7 @@ end
 elsif session["last_intent"] == "equation1"
 	if body == correct_choice_equation2
 		 session["last_intent"] = "equation2"
-		 return correct_feedback.sample + "OK. Now we get the first equation #{session["variable2"]} = 0.6 #{session["variable1"]} and the second equation #{session["variable2"]} = #{session["variable1"]} + 20000.  What can we do next? "+ "Let's substitute y in the second equation with x to eliminate one variable. What equation can we combine the two equations? " + "\n 1.  #{session["variable1"]} + 0.6  #{session["variable1"]} = 20000 \n  2. 0.6  #{session["variable1"]} -  #{session["variable1"]} = -20000"
-	else
+		 return correct_feedback.sample + "OK. Now we get the first equation #{session["variable2"]} = 0.6 #{session["variable1"]} and the second equation #{session["variable2"]} = #{session["variable1"]} + 20000.  What can we do next? "+ "Let's substitute y in the second equation with x to eliminate one variable. What equation can we get combining the two equations? " + "\n 1.  0.6  #{session["variable1"]} =  #{session["variable1"]} - 2000 \n  2. 0.6 #{session["variable1"]} =  #{session["variable1"]} + 2000"
 		session["last_intent"] = "equation1"
 		return  "Are you sure? Think about whose money is less. Let's do it again. \n"+"\n Now let's work on the second equation. \n What can you get from the condition 'John made $20,000 more than Jasmine'?"+"\n 1. #{session["variable2"]} = #{session["variable1"]} + 20000 \n  2.#{session["variable2"]} = #{session["variable1"]} - 20000"
 end
