@@ -109,13 +109,7 @@ session["variable2"] ||= nil
 
 # process of solving systems of equations
 
-proncess = "Congratulations! You have finished the challenge! \n So let's recall the process of solving systems of equations word problems:
-\n 1. define variables.
-\n 2. get the two equations.
-\n 3. eliminate one variable by combining the two equations.
-\n 4. solve the equation to get the value of one variable.
-\n 5. put the value back to the equation to get the value of the other variable."
-
+proncess = "Congratulations! You have finished the challenge! \n So let's recall the process of solving systems of equations word problems: \n 1. define variables. \n 2. get the two equations. \n 3. eliminate one variable by combining the two equations. \n 4. solve the equation to get the value of one variable. \n 5. put the value back to the equation to get the value of the other variable."
 
 
 body = body.downcase.strip
@@ -229,9 +223,9 @@ end
 
 # get the value of x
 elsif session["last_intent"] == "transposed_equation"
-	if body == x_value
+	if match(body, x_value)
   	session["last_intent"] = "get_x_value"
-	  return correct_feedback.sample + " What is the value of  #{session["variable2"]} ?"
+	  return correct_feedback.sample + " What is the value of  #{session["variable2"]} then?"
 
   else
 	 session["last_intent"] = "transposed_equation"
@@ -241,7 +235,7 @@ elsif session["last_intent"] == "transposed_equation"
 
 	 # get the value of y
  elsif session["last_intent"] == "get_x_value"
-	  if body == y_value
+	  if match(body, y_value)
 		 session["last_intent"] = "get_y_value"
 	 	 return correct_feedback.sample + process
 	 else
