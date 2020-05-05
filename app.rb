@@ -188,37 +188,29 @@ end
 elsif session["last_intent"] == "variable2_confirmation"
     if body == correct_choice_equation1
 		 session["last_intent"] = "equation1"
-		 return correct_feedback.sample + "\n Now let's work on the second equation. \n What can you get from the condition 'John made $20,000 more than Jasmine'?"
-	   + "\n 1. #{session["variable2"]} = #{session["variable1"]} + 20000 \n 2.#{session["variable2"]} = #{session["variable1"]} - 20000"
+		 return correct_feedback.sample + "\n Now let's work on the second equation. \n What can you get from the condition 'John made $20,000 more than Jasmine'?"+"\n 1. #{session["variable2"]} = #{session["variable1"]} + 20000 \n 2.#{session["variable2"]} = #{session["variable1"]} - 20000"
 	 else
 		 session["last_intent"] = "variable2_confirmation"
-	 	return "Are you sure? \n #{session["variable1"]} represents John(white man) and #{session["variable2"]} represents Jasmine(black woman). \n #{session["variable2"]}'s income is 60% of that of #{session["variable_1"]}'s. \n Let's try again. "
- + "\n Now let's work on the second equation. \n What can you get from the condition 'John made $20,000 more than Jasmine'?"
- + "\n 1. #{session["variable2"]} = #{session["variable1"]} + 20000 \n  2.#{session["variable2"]} = #{session["variable1"]} - 20000"
+	 	return "Are you sure? \n #{session["variable1"]} represents John(white man) and #{session["variable2"]} represents Jasmine(black woman). \n #{session["variable2"]}'s income is 60% of that of #{session["variable1"]}'s. \n Let's try again. "+ "In 2018, the median annual income of black women is approximately 60% of that of white men. \n John is a white man and Jasmine is a black woman. \n What equation with variables can we generate according to this condition?"+ "\n 1. #{session["variable2"]} = 0.6 #{session["variable1"]} \n 2.#{session["variable1"]} = 0.6 #{session["variable2"]}"
 end
 		# check if the user's choice of equation2 is correct
 elsif session["last_intent"] == "equation1"
 	if body == correct_choice_equation2
 		 session["last_intent"] = "equation2"
-		 return correct_feedback.sample + "OK. Now we get the first equation #{session["variable2"]} = 0.6 #{session["variable1"]} and the second equation #{session["variable2"]} = #{session["variable1"]} + 20000.  What can we do next? "
-+ "Let's substitute y in the second equation with x to eliminate one variable. What equation can we get combining the two equations? "
+		 return correct_feedback.sample + "OK. Now we get the first equation #{session["variable2"]} = 0.6 #{session["variable1"]} and the second equation #{session["variable2"]} = #{session["variable1"]} + 20000.  What can we do next? "+ "Let's substitute y in the second equation with x to eliminate one variable. What equation can we get combining the two equations? "
 	else
 		session["last_intent"] = "equation1"
-		return  "Are you sure? Think about whose money is less. Let's do it again. \n" +
- + "\n Now let's work on the second equation. \n What can you get from the condition 'John made $20,000 more than Jasmine'?"
- + "\n 1. #{session["variable2"]} = #{session["variable1"]} + 20000 \n  2.#{session["variable2"]} = #{session["variable1"]} - 20000"
+		return  "Are you sure? Think about whose money is less. Let's do it again. \n"+"\n Now let's work on the second equation. \n What can you get from the condition 'John made $20,000 more than Jasmine'?"+"\n 1. #{session["variable2"]} = #{session["variable1"]} + 20000 \n  2.#{session["variable2"]} = #{session["variable1"]} - 20000"
 end
 
 #elinimate variable
 elsif session["last_intent"] == "equation2"
 	if body == correct_choice_eliminate
 	 session["last_intent"] = "eliminate_variable"
-	 return correct_feedback.sample + "\n Now let's try to get  #{session["variable1"]} to one side of the equation. \n What do we get if we move  #{session["variable1"]} to one side?"
-	 + "\n 1.  #{session["variable1"]} + 0.6  #{session["variable1"]} = 20000 \n  2. 0.6  #{session["variable1"]} -  #{session["variable1"]} = -20000"
+	 return correct_feedback.sample + "\n Now let's try to get  #{session["variable1"]} to one side of the equation. \n What do we get if we move  #{session["variable1"]} to one side?"+"\n 1.  #{session["variable1"]} + 0.6  #{session["variable1"]} = 20000 \n  2. 0.6  #{session["variable1"]} -  #{session["variable1"]} = -20000"
+ else
 	 session["last_intent"] = "equation2"
-	 return "That's not correct! \n we got  #{session["variable2"]} = 0.6 #{session["variable1"]} and  #{session["variable2"]} =  #{session["variable1"]} - 20000. \n What do you get if we substitute the  #{session["variable2"]} with 0.6  #{session["variable1"]} in equation 2?"
- +  "\n Now let's try to get  #{session["variable1"]} to one side of the equation. \n What do we get if we move  #{session["variable1"]} to one side?"
- + "\n 1.  #{session["variable1"]} + 0.6  #{session["variable1"]} = 20000 \n  2. 0.6  #{session["variable1"]} -  #{session["variable1"]} = -20000"
+	 return "That's not correct! \n we got  #{session["variable2"]} = 0.6 #{session["variable1"]} and  #{session["variable2"]} =  #{session["variable1"]} - 20000. \n What do you get if we substitute the  #{session["variable2"]} with 0.6  #{session["variable1"]} in equation 2?" + "\n Now let's try to get  #{session["variable1"]} to one side of the equation. \n What do we get if we move  #{session["variable1"]} to one side?" + "\n 1.  #{session["variable1"]} + 0.6  #{session["variable1"]} = 20000 \n  2. 0.6  #{session["variable1"]} -  #{session["variable1"]} = -20000"
  end
 # transpose the equation
 
@@ -252,8 +244,7 @@ elsif session["last_intent"] == "transposed_equation"
 
   else
 	 session["last_intent"] = "transposed_equation"
-	 return "That's not correct! \n We should try to get the coefficient of  #{session["variable1"]} by dividing both sides by 0.4, then we get  #{session["variable1"]} = 2000/0.4. \n You can calculate it on your own or use a calculator.\n Let's try again"
- +  "So what is the value of  #{session["variable1"]} that we can get by solving the equation? "
+	 return "That's not correct! \n We should try to get the coefficient of  #{session["variable1"]} by dividing both sides by 0.4, then we get  #{session["variable1"]} = 2000/0.4. \n You can calculate it on your own or use a calculator.\n Let's try again"+"So what is the value of  #{session["variable1"]} that we can get by solving the equation? "
 
  end
 
@@ -264,8 +255,7 @@ elsif session["last_intent"] == "transposed_equation"
 	 	 return correct_feedback.sample + process
 	 else
 		  session["last_intent"] = "get_x_value"
-	 	 return  "That's not correct! \n Now that we have the equation  #{session["variable2"]} = 0.6  #{session["variable1"]} and value of  #{session["variable1"]}, we can substitute the  #{session["variable1"]} with the value and get the value of  #{session["variable2"]}! \n Let's try again."
-  + "So, what is the value of  #{session["variable2"]} ?"
+	 	 return  "That's not correct! \n Now that we have the equation  #{session["variable2"]} = 0.6  #{session["variable1"]} and value of  #{session["variable1"]}, we can substitute the  #{session["variable1"]} with the value and get the value of  #{session["variable2"]}! \n Let's try again."+"So, what is the value of  #{session["variable2"]} ?"
 	 end
  end
 end
