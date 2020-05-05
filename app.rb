@@ -168,7 +168,7 @@ elsif	session["last_intent"] == "variable1_confirm"
 		session["last_intent"] = "variable2_confirmation"
 		return "So let's recall the first part. \n In 2018, the median annual income of black women is approximately 60% of that of white men. \n John is a white man and Jasmine is a black woman. \n What equation with variables can we generate according to this condition?"+"\n 1. #{session["variable2"]} = 0.6 #{session["variable1"]} \n 2. #{session["variable1"]} = 0.6 #{session["variable2"]}"
 	else
-		session["last_intent"] = "variable_1_confirm"
+		session["last_intent"] = "variable1_confirm"
 		return "Got it. " + variable2
 end
 
