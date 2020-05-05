@@ -17,7 +17,6 @@ configure :development do
 	require 'did_you_mean'
 end
 
-
 # function that can handle different user inputs
 def match (body, keywords)
 		keywords.each do |keyword|
