@@ -105,11 +105,11 @@ session["variable2"] ||= nil
 	x_value = ["50000", "50,000", "50 thousand"]
 
 # get the value of  y
- y_value = ["30000", "30,000", "30 thousand"]
+  y_value = ["30000", "30,000", "30 thousand"]
 
 # process of solving systems of equations
 
-proncess = "Congratulations! You have finished the challenge! \n So let's recall the process of solving systems of equations word problems: \n 1. define variables. \n 2. get the two equations. \n 3. eliminate one variable by combining the two equations. \n 4. solve the equation to get the value of one variable. \n 5. put the value back to the equation to get the value of the other variable."
+process = "\n Congratulations! You have finished the challenge! \n So let's recall the process of solving systems of equations word problems: \n 1. define variables. \n 2. get the two equations. \n 3. eliminate one variable by combining the two equations. \n 4. solve the equation to get the value of one variable. \n 5. put the value back to the equation to get the value of the other variable."
 
 
 body = body.downcase.strip
@@ -238,7 +238,7 @@ elsif session["last_intent"] == "transposed_equation"
 		 session["last_intent"] = "get_y_value"
 	 	 return correct_feedback.sample + process
 	 else
-		  session["last_intent"] = "get_x_value"
+		 session["last_intent"] = "get_x_value"
 	 	 return  "That's not correct! \n Now that we have the equation  #{session["variable2"]} = 0.6  #{session["variable1"]} and value of  #{session["variable1"]}, we can substitute the  #{session["variable1"]} with the value and get the value of  #{session["variable2"]}! \n Let's try again."+"So, what is the value of  #{session["variable2"]} ?"
 	 end
  end
