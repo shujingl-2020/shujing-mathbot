@@ -111,8 +111,6 @@ session["variable2"] ||= nil
 
 process = "\n Congratulations! You have finished the challenge! \n So let's recall the process of solving systems of equations word problems: \n 1. define variables. \n 2. get the two equations. \n 3. eliminate one variable by combining the two equations. \n 4. solve the equation to get the value of one variable. \n 5. put the value back to the equation to get the value of the other variable."
 
-number = ENV["TEST_NUMBER"]
-
 body = body.downcase.strip
 # happy path
   # first step. introduction
@@ -124,9 +122,9 @@ body = body.downcase.strip
 elsif session["last_intent"] == "greeting"
 	 if match(body, human_yes_challenge)
 		session["last_intent"] = "math_challenge"
-		send_sms_to number, math_problem
+		send_sms_to sender, math_problem
 		sleep(1)
-		send_sms_to number, variable_prompt
+		send_sms_to sender, variable_prompt
 		sleep(3)
 	  return variable1
 	else
