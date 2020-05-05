@@ -158,7 +158,6 @@ elsif session["last_intent"] == "math_challenge"
 elsif session["last_intent"] == "variable_1"
 		if match(body, human_yes_variable1)
 			session["last_intent"] = "variable1_confirm"
-			session["variable1"] = body
 		  return variable2
    else
 		session["last_intent"] = "math_challenge"
@@ -179,7 +178,6 @@ elsif	session["last_intent"] == "variable1_confirm"
 	elsif session["last_intent"] == "variable_2"
 		if match(body, human_yes_variable2)
 		session["last_intent"] = "variable2_confirmation"
-		session["variable2"] = body
 		return "So let's recall the first part. \n In 2018, the median annual income of black women is approximately 60% of that of white men. \n John is a white man and Jasmine is a black woman. \n What equation with variables can we generate according to this condition?"+"\n 1. #{session["variable2"]} = 0.6 #{session["variable1"]} \n 2.#{session["variable1"]} = 0.6 #{session["variable2"]}"
 	else
 		session["last_intent"] = "variable_1_confirm"
