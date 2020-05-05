@@ -124,6 +124,10 @@ elsif session["last_intent"] == "greeting"
 	 puts "match body #{match(body, human_yes_challenge)}"
 	 if match(body, human_yes_challenge)
 		session["last_intent"] = "math_challenge"
+		send_sms_to sender, "hmmmm...."
+		sleep(1)
+		send_sms_to sender, "I'm not sure I understood that"
+		sleep(3)
 	  return math_problem + variable_prompt + variable1
 	else
 		session["last_intent"] = nil
