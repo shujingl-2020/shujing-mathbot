@@ -125,16 +125,12 @@ body = body.downcase.strip
 		session["last_intent"] = "greeting"
 		return bot_greetings
 
-	#confirmation for challenges  math_problem + variable_prompt +
+	#confirmation for challenges
 elsif session["last_intent"] == "greeting"
 	 puts "match body #{match(body, human_yes_challenge)}"
 	 if match(body, human_yes_challenge)
 		session["last_intent"] = "math_challenge"
- 		send_sms_to math_problem, sender
-	  	sleep(3)
-		send_sms_to variable_prompt, sender
-		  sleep(3)
-	  return variable1
+	  return math_problem + variable_prompt + variable1
 	else
 		session["last_intent"] = nil
 		return no_challenge_response
