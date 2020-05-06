@@ -195,7 +195,7 @@ elsif session["last_intent"] == "variable2_confirmation"
  		 sleep(2)
  		 send_sms_to sender,"Now let's work on the second equation. \n What can you get from the condition 'John made $20,000 more than Jasmine'?"
  		 sleep(2)
-		 return " 1️⃣ #{session["variable2"]} = #{session["variable1"]} + 20000 \n 2️⃣ #{session["variable2"]} = #{session["variable1"]} - 20000  \n " + replychoice
+		 return " 1️⃣ #{session["variable2"]} = #{session["variable1"]} + 20000 \n2️⃣ #{session["variable2"]} = #{session["variable1"]} - 20000  \n " + replychoice
 	 else
 		session["last_intent"] = "variable2_confirmation"
 		send_sms_to sender,  "Are you sure? \n #{session["variable1"]} represents John(white man) and #{session["variable2"]} represents Jasmine(black woman). \n #{session["variable2"]}'s income is 60% of that of #{session["variable1"]}'s. "
@@ -308,7 +308,9 @@ elsif session["last_intent"] == "transposed_equation"
 	elsif session["last_intent"] ==  "social_justice"
 	  if match body, yes_social_justice
 		 session["last_intent"] = "nil"
-		 send_sms_to sender, "The gender wage gap refers to the difference in earnings between women and men.2 Experts have calculated this gap in a multitude of ways, but the varying calculations point to a consensus: Women consistently earn less than men, and the gap is wider for most women of color. \n Analyzing the most recent Census Bureau data from 2018, women of all races earned, on average, just 82 cents for every $1 earned by men of all races. \n This calculation is the ratio of median annual earnings for women working full time, year round to those of their male counterparts, and it translates to a gender wage gap of 18 cents. \n When talking about the wage gap for women, it is important to highlight that there are significant differences by race and ethnicity. \n The wage gap is larger for most women of color. 'https://cdn.americanprogress.org/content/uploads/2020/03/23102035/Gender-Wage-Gap-_webfig_01.png'"
+		 send_sms_to sender, "The gender wage gap refers to the difference in earnings between women and men. \n Experts have calculated this gap in a multitude of ways, but the varying calculations point to a consensus: Women consistently earn less than men, and the gap is wider for most women of color."
+     sleep(3)
+		 send_sms_to sender, "When talking about the wage gap for women, it is important to highlight that there are significant differences by race and ethnicity. \n The wage gap is larger for most women of color. \n See the following figure as a reference: \n 'https://cdn.americanprogress.org/content/uploads/2020/03/23102035/Gender-Wage-Gap-_webfig_01.png'"
      sleep(3)
 		 return "That's all for today. Hope you learned a lot. Remember that I am always here to help you. See you next time 👋! "
 		else
