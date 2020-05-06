@@ -55,6 +55,8 @@ session["variable2"] ||= nil
 	human_yes_variable2 = ["yes","correct","no problem","yup"]
 	human_no_variable1 = ["no","another","not correct","incorrect"]
 	human_no_variable2 = ["no","another","not correct","incorrect"]
+	yes_social_justice = ["yes", "sure", "i am interested"]
+	no_social_justice = ["no", "not really", "nope"]
 
 
 	# store chatbot responses into variables
@@ -298,6 +300,23 @@ elsif session["last_intent"] == "transposed_equation"
 		 sleep(2)
 	 	 return "Let's try again." + "So, what is the value of  #{session["variable2"]} ?"
 	 end
+
+ elsif session["last_intent"] == "get_y_value"
+		session["last_intent"] = "social_justice"
+		return "Great! Now that we have done with the math part. Are you interested in learning more about gender and race pay gap? "
+
+	elsif session["last_intent"] ==  "social_justice"
+	  if match body, yes_social_justice
+		 session["last_intent"] = "nil"
+		 send_sms_to sender, "The gender wage gap refers to the difference in earnings between women and men.2 Experts have calculated this gap in a multitude of ways, but the varying calculations point to a consensus: Women consistently earn less than men, and the gap is wider for most women of color. \n Analyzing the most recent Census Bureau data from 2018, women of all races earned, on average, just 82 cents for every $1 earned by men of all races. \n This calculation is the ratio of median annual earnings for women working full time, year round to those of their male counterparts, and it translates to a gender wage gap of 18 cents. \n When talking about the wage gap for women, it is important to highlight that there are significant differences by race and ethnicity. \n The wage gap is larger for most women of color. 'https://cdn.americanprogress.org/content/uploads/2020/03/23102035/Gender-Wage-Gap-_webfig_01.png'"
+     sleep(3)
+		 return "That's all for today. Hope you learned a lot. Remember that I am always here to help you. See you next time 👋! "
+		else
+			session["last_intent"] = nil
+			return "OK. Hope you learned a lot today. Remember that I am always here to help you. See you next time 👋! "
+	end
+
+
  end
 end
 
