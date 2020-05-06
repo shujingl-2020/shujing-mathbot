@@ -139,7 +139,7 @@ elsif session["last_intent"] == "greeting"
 		sleep(3)
 		send_sms_to sender, variable_prompt2
 		sleep(3)
-	  return variable1
+	  send_sms_to sender, variable1
 	else
 		session["last_intent"] = nil
 		return no_challenge_response
