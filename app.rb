@@ -39,7 +39,6 @@ def checkVariable2 (body,variable1)
 	return (body.size == 1 and body.count("a-z") > 0 and body!= variable1)
 end
 
-
 def determine_response body, sender
 
 #session variable1
@@ -332,11 +331,17 @@ end
 
 
 get "/sms/incoming" do
+	human_greetngs = ["hi","what's up","hello","hi there","what can you do"]
 	session[:counter] ||= 0
-
 	sender = params[:From] || ""
 	body = params[:Body] || ""
-  media = get_gif_for body
+	query = nil
+	if match body, human_greetngs
+		query = "Welcome"
+	else
+		query = nil
+	end
+  media = get_gif_for query
 	message = determine_response body, sender
 
 	twiml = Twilio::TwiML::MessagingResponse.new do |r|
@@ -364,7 +369,8 @@ end
 
 
 def get_gif_for query
-  Giphy::Configuration.configure do |config|
+
+	Giphy::Configuration.configure do |config|
     config.api_key = ENV["GIPHY_API_KEY"]
   end
 
