@@ -65,8 +65,7 @@ session["variable2"] ||= nil
 	math3 = " Questions: How much did John make in 2018? \n How much did Jasmine make in 2018?"
 
   # define variables
-	variable_prompt1 = " It's a little complicated, right 🤔? We can break down the problem a little bit 🤓."
-	variable_prompt2 = " Firstly, it will be helpful if we translate the word problem into equations. \n Let's define variables first. "
+	variable_prompt = " It's a little complicated, right 🤔? We can break down the problem a little bit 🤓. \n Firstly, it will be helpful if we translate the word problem into equations. \n Let's define variables first."
 	variable1 = "What letter 🔡 would you like to use as a representation for John?"
 	variable2 = "What letter 🔡 would you like to use as a representation for Jasmine?"
 	variable1_correction = " ❌Please use a letter from a to z for variables"
@@ -129,9 +128,7 @@ elsif session["last_intent"] == "greeting"
 		sleep(4)
 		send_sms_to sender, math3
 		sleep(3)
-		send_sms_to sender, variable_prompt1
-		sleep(3)
-		send_sms_to sender, variable_prompt2
+		send_sms_to sender, variable_prompt
 		sleep(3)
 	 return variable1
 	else
