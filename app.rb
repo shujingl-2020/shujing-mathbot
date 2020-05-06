@@ -139,6 +139,9 @@ elsif session["last_intent"] == "greeting"
  elsif match(body, human_no_challenge)
 		session["last_intent"] = nil
 		message = no_challenge_response
+ else
+	 session["last_intent"] = "greeting"
+	 error_message +  "Are you ready to have some math challenges today📖?"
 	end
 
 	# check if the user input of variable1 is valid
