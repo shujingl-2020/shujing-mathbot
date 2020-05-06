@@ -275,7 +275,6 @@ get "/sms/incoming" do
    to: send_to,
    body: message
  )
-​
 end
 
 
