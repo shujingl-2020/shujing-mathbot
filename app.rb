@@ -61,10 +61,8 @@ session["variable2"] ||= nil
 	bot_greetings = "Welcome👋! This is Sharia 👩‍🏫, your math agent🔢! I can give you guidance in solving systems of equations! Are you ready to have some math challenges today📖?"
 	error_message = "Sorry, I am not sure I understand 🤷‍♀️."
   math1 = "Great! Here is the problem for today:"
-	math2 ="In 2018, the median annual income 💰 of black women is approximately 60% of that of white men."
-	math3 = "John is a white man 👨‍💼 and Jasmine is a black woman 👩🏾‍🔧. \n Both of them happened to have an annual income that equals the median income of their groups in 2018."
-	math4 = "John made $20,000 more than Jasmine."
-	math5 = " Questions: How much did John make in 2018? \n How much did Jasmine make in 2018?"
+	math2 ="In 2018, the median annual income 💰 of black women is approximately 60% of that of white men. \n John is a white man 👨‍💼 and Jasmine is a black woman 👩🏾‍🔧. \n Both of them happened to have an annual income that equals the median income of their groups in 2018. \n John made $20,000 more than Jasmine."
+	math3 = " Questions: How much did John make in 2018? \n How much did Jasmine make in 2018?"
 
   # define variables
 	variable_prompt1 = " It's a little complicated, right 🤔? We can break down the problem a little bit 🤓."
@@ -129,16 +127,12 @@ elsif session["last_intent"] == "greeting"
 		sleep(3)
 		send_sms_to sender, math2
 		sleep(3)
-		# send_sms_to sender, math3
-		# sleep(3)
-		# send_sms_to sender, math4
-		# sleep(3)
-		# send_sms_to sender, math5
-		# sleep(3)
-		# send_sms_to sender, variable_prompt1
-		# sleep(3)
-		# send_sms_to sender, variable_prompt2
-		# sleep(2)
+		send_sms_to sender, math3
+		sleep(3)
+		send_sms_to sender, variable_prompt1
+		sleep(3)
+		send_sms_to sender, variable_prompt2
+		sleep(2)
 	 return variable1
 	else
 		session["last_intent"] = nil
