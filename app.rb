@@ -138,10 +138,11 @@ elsif session["last_intent"] == "greeting"
 		send_sms_to sender, variable_prompt1
 		sleep(3)
 		send_sms_to sender, variable_prompt2
-	  return variable1
+		sleep(2)
+	  message = variable1
 	else
 		session["last_intent"] = nil
-		return no_challenge_response
+		message = no_challenge_response
 	end
 
 	# check if the user input of variable1 is valid
@@ -254,6 +255,7 @@ elsif session["last_intent"] == "transposed_equation"
 		 session["last_intent"] = "get_x_value"
 	 	 return  "That's not correct! \n Now that we have the equation  #{session["variable2"]} = 0.6  #{session["variable1"]} and value of  #{session["variable1"]}, we can substitute the  #{session["variable1"]} with the value and get the value of  #{session["variable2"]}! \n Let's try again."+"So, what is the value of  #{session["variable2"]} ?"
 	 end
+	 message
  end
 end
 
