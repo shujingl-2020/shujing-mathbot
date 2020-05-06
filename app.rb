@@ -365,7 +365,7 @@ end
 def get_gif_for query
   human_greetngs = ["hi","what's up","hello","hi there","what can you do"]
   if match query, human_greetngs
-		query = "hello"
+		query = "welcome"
 	end
   Giphy::Configuration.configure do |config|
     config.api_key = ENV["GIPHY_API_KEY"]
