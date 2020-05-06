@@ -118,9 +118,7 @@ body = body.downcase.strip
   # first step. introduction
 	if session["last_intent"] == nil
 		if match body, human_greetngs
-
 		session["last_intent"] = "greeting"
-
 		return bot_greetings
 	else
 		return error_message + "You can say hi to me! "
@@ -138,7 +136,7 @@ elsif session["last_intent"] == "greeting"
 		send_sms_to sender, variable_prompt
 		sleep(3)
 	 return variable1
-	else
+ elsif match(body, human_no_challenge)
 		session["last_intent"] = nil
 		message = no_challenge_response
 	end
