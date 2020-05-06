@@ -124,15 +124,15 @@ elsif session["last_intent"] == "greeting"
 	 if match(body, human_yes_challenge)
 		session["last_intent"] = "math_challenge"
 		send_sms_to sender, math1
-		sleep(3)
+		sleep(2)
 		send_sms_to sender, math2
-		sleep(3)
+		sleep(4)
 		send_sms_to sender, math3
-		sleep(3)
+		sleep(4)
 		send_sms_to sender, variable_prompt1
 		sleep(3)
 		send_sms_to sender, variable_prompt2
-		sleep(2)
+		sleep(3)
 	 return variable1
 	else
 		session["last_intent"] = nil
