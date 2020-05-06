@@ -117,9 +117,14 @@ body = body.downcase.strip
 # happy path
   # first step. introduction
 	if session["last_intent"] == nil
-		session["last_intent"] = "greeting"
-		return bot_greetings
+		if match body, human_greetngs
 
+		session["last_intent"] = "greeting"
+
+		return bot_greetings
+	else
+		return error_message + "You can say hi to me! "
+	end
 	#confirmation for challenges math_problem + variable_prompt +
 elsif session["last_intent"] == "greeting"
 	 if match(body, human_yes_challenge)
@@ -307,7 +312,7 @@ elsif session["last_intent"] == "transposed_equation"
 
 	elsif session["last_intent"] ==  "social_justice"
 	  if match body, yes_social_justice
-		 session["last_intent"] = "nil"
+		 session["last_intent"] = nil
 		 send_sms_to sender, "The gender wage gap refers to the difference in earnings between women and men. \n Experts have calculated this gap in a multitude of ways, but the varying calculations point to a consensus: Women consistently earn less than men, and the gap is wider for most women of color."
      sleep(3)
 		 send_sms_to sender, "When talking about the wage gap for women, it is important to highlight that there are significant differences by race and ethnicity. \n The wage gap is larger for most women of color. \n See the following figure as a reference: \n 'https://cdn.americanprogress.org/content/uploads/2020/03/23102035/Gender-Wage-Gap-_webfig_01.png'"
@@ -330,7 +335,7 @@ get "/sms/incoming" do
 
 	sender = params[:From] || ""
 	body = params[:Body] || ""
-  media = determine_media_response body
+  media = get_gif_for body
 	message = determine_response body, sender
 
 	twiml = Twilio::TwiML::MessagingResponse.new do |r|
@@ -357,26 +362,23 @@ get "/sms/incoming" do
 end
 
 
-
-def determine_media_response body
-	q = body.to_s.downcase.strip
-
-Giphy::Configuration.configure do |config|
-	config.api_key = ENV["GIPHY_API_KEY"]
-end
-
-if q == "image"
-	giphy_search = "hello"
-else
-	giphy_search = nil
-end
-
-unless giphy_search.nil?
-	results = Giphy.search( giphy_search, { limit: 25 } )
-	unless results.empty?
-		gif = results.sample.fixed_width_downsampled_image.url.to_s
-		return gif
+def get_gif_for query
+  human_greetngs = ["hi","what's up","hello","hi there","what can you do"]
+  if match query, human_greetngs
+		query = "hello"
 	end
-end
-nil
+  Giphy::Configuration.configure do |config|
+    config.api_key = ENV["GIPHY_API_KEY"]
+  end
+
+  results = Giphy.search( query, {limit: 10})
+  gif = nil
+
+  #puts results.to_yaml
+  unless results.empty?
+    gif = results.sample.fixed_width_downsampled_image.url.to_s
+  end
+
+  gif
+
 end
