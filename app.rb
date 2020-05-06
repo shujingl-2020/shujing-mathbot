@@ -128,7 +128,7 @@ elsif session["last_intent"] == "greeting"
 		send_sms_to sender, math2
 		sleep(4)
 		send_sms_to sender, math3
-		sleep(4)
+		sleep(3)
 		send_sms_to sender, variable_prompt1
 		sleep(3)
 		send_sms_to sender, variable_prompt2
