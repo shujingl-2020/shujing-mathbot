@@ -119,8 +119,9 @@ body = body.downcase.strip
 		if match body, human_greetngs
 		session["last_intent"] = "greeting"
 		message = bot_greetings
-		media = nil
+		media = get_gif_for "welcome"
 	else
+		media = get_gif_for "sorry"
 		message = error_message + "You can say hi to me! "
 	end
 	#confirmation for challenges math_problem + variable_prompt +
@@ -136,11 +137,14 @@ elsif session["last_intent"] == "greeting"
 		send_sms_to sender, variable_prompt
 		sleep(3)
 	  message = variable1
+		media = nil
  elsif match(body, human_no_challenge)
 		session["last_intent"] = nil
+		media = get_gif_for "see you"
 		message = no_challenge_response
  else
 	 session["last_intent"] = "greeting"
+	 media = get_gif_for "Sorry"
 	 message = error_message +  "Are you ready to have some math challenges today📖?"
 	end
 
@@ -150,8 +154,10 @@ elsif session["last_intent"] == "math_challenge"
 		  session["last_intent"] = "variable_1"
 			session["variable1"] = body
 	  	message = "OK.Use #{session["variable1"]} to stand for John, is that correct?"
+			media = nil
    else
 		 session["last_intent"] = "math_challenge"
+		 media = get_gif_for "wrong"
 		 send_sms_to sender, variable1_correction
  		 sleep(2)
 		 message = variable1
@@ -162,9 +168,11 @@ elsif session["last_intent"] == "variable_1"
 		if match(body, human_yes_variable1)
 			session["last_intent"] = "variable1_confirm"
 		  message = variable2
+			media = nil
    else
 		session["last_intent"] = "math_challenge"
 	  message = "Got it." + variable1
+		media = nil
 	end
 
 	# check if the user input of variable2 is valid
@@ -172,11 +180,13 @@ elsif	session["last_intent"] == "variable1_confirm"
    if checkVariable2(body,session["variable1"])
 		session["last_intent"] = "variable_2"
 		session["variable2"] = body
+		media = get_gif_for "yes?"
 		message = "Got it! Use #{session["variable2"]} to represent Jasmine, is that correct?"
 	else
 		session["last_intent"] = "variable1_confirm"
 		send_sms_to sender, variable2_correction
 		sleep(2)
+		media = get_gif_for "no"
 		message = variable2
 	end
 
@@ -187,9 +197,11 @@ elsif	session["last_intent"] == "variable1_confirm"
 		sleep(2)
 		send_sms_to sender, "What equation with variables can we generate according to this condition?"
 		sleep(2)
+		media = get_gif_for "equation"
 		message = " 1️⃣ #{session["variable2"]} = 0.6 #{session["variable1"]} \n 2️⃣ #{session["variable1"]} = 0.6 #{session["variable2"]} \n " + replychoice
 	else
 		session["last_intent"] = "variable1_confirm"
+		media = get_gif_for "OK"
 		message = "Got it. " + variable2
 end
 
@@ -201,9 +213,11 @@ elsif session["last_intent"] == "variable2_confirmation"
  		 sleep(2)
  		 send_sms_to sender,"Now let's work on the second equation. \n What can you get from the condition 'John made $20,000 more than Jasmine'?"
  		 sleep(2)
+		 media = nil
 		 message = " 1️⃣ #{session["variable2"]} = #{session["variable1"]} + 20000 \n2️⃣ #{session["variable2"]} = #{session["variable1"]} - 20000  \n " + replychoice
 	 else
 		session["last_intent"] = "variable2_confirmation"
+		media = get_gif_for "no"
 		send_sms_to sender,  "Are you sure? \n #{session["variable1"]} represents John(white man) and #{session["variable2"]} represents Jasmine(black woman). \n #{session["variable2"]}'s income is 60% of that of #{session["variable1"]}'s. "
 		sleep(2)
 		send_sms_to sender, "Let's try again. \n In 2018, the median annual income of black women is approximately 60% of that of white men. \n John is a white man and Jasmine is a black woman."
@@ -215,6 +229,7 @@ elsif session["last_intent"] == "equation1"
 	if body == correct_choice_equation2
 		 session["last_intent"] = "equation2"
 		send_sms_to sender,  correct_feedback.sample
+		media = get_gif_for "correct"
  		sleep(2)
  		send_sms_to sender, " OK. Now we get the first equation #{session["variable2"]} = 0.6 #{session["variable1"]} and the second equation #{session["variable2"]} = #{session["variable1"]} + 20000.  What can we do next? "
  		sleep(2)
@@ -222,6 +237,7 @@ elsif session["last_intent"] == "equation1"
 		message =  "What equation can we get combining the two equations? " + "\n 1️⃣  0.6  #{session["variable1"]} =  #{session["variable1"]} - 20000 \n  2️⃣ 0.6 #{session["variable1"]} =  #{session["variable1"]} + 20000 \n" + replychoice
 	else
 		session["last_intent"] = "equation1"
+		media = get_gif_for "no"
 		send_sms_to sender, "Are you sure? Think about whose money is less. \n Let's do it again."
  		sleep(2)
 		message = "What can you get from the condition 'John made $20,000 more than Jasmine'?"+"\n 1️⃣ #{session["variable2"]} = #{session["variable1"]} + 20000 \n 2️⃣#{session["variable2"]} = #{session["variable1"]} - 20000 \n" + replychoice
@@ -231,6 +247,7 @@ end
 elsif session["last_intent"] == "equation2"
 	if body == correct_choice_eliminate
 	 session["last_intent"] = "eliminate_variable"
+	 media = get_gif_for "correct"
 	 send_sms_to sender,  correct_feedback.sample
 	 sleep(2)
 	 send_sms_to sender, " Now let's try to get  #{session["variable1"]} to one side of the equation. "
@@ -238,6 +255,7 @@ elsif session["last_intent"] == "equation2"
 	 message = "What do we get if we move  #{session["variable1"]} to one side?"+"\n 1️⃣  #{session["variable1"]} + 0.6  #{session["variable1"]} = 20000 \n  2️⃣ 0.6  #{session["variable1"]} -  #{session["variable1"]} = -20000 \n" + replychoice
  else
 	 session["last_intent"] = "equation2"
+	 media = get_gif_for "wrong"
 	 send_sms_to sender,  "Not quite right.😐 \n We got  #{session["variable2"]} = 0.6 #{session["variable1"]} and  #{session["variable2"]} =  #{session["variable1"]} - 20000. \n What do you get if we substitute the  #{session["variable2"]} with 0.6  #{session["variable1"]} in equation 2? \n Let's try again."
 	 sleep(2)
 	 send_sms_to sender,  "Now we get the first equation #{session["variable2"]} = 0.6 #{session["variable1"]} and the second equation #{session["variable2"]} = #{session["variable1"]} + 20000.  What can we do next? "
@@ -248,6 +266,7 @@ elsif session["last_intent"] == "equation2"
 elsif session["last_intent"] == "eliminate_variable"
 	if body == correct_choice_transpose
 	session["last_intent"] = "transpose"
+	media = get_gif_for "good job"
 	send_sms_to sender, correct_feedback.sample
 	sleep(2)
 	send_sms_to sender, get_transposed_equation
@@ -255,6 +274,7 @@ elsif session["last_intent"] == "eliminate_variable"
 	message = " 1️⃣ 0.4  #{session["variable1"]} = 20000 \n 2️⃣ -0.4  #{session["variable1"]}  = 20000. \n" + replychoice
  else
 	session["last_intent"] = "eliminate_variable"
+	media = get_gif_for "shaking head"
 	send_sms_to sender, transpose_wrong_feedback
 	sleep(2)
 	send_sms_to sender, " Let's try again. \n Now let's try to get  #{session["variable1"]} to one side of the equation. \n What do we get if we move  #{session["variable1"]} to one side?"
@@ -266,11 +286,13 @@ end
 elsif session["last_intent"] == "transpose"
 	 if body == correct_choice_transposed_equation
 		 session["last_intent"] = "transposed_equation"
+		 media = get_gif_for "good"
 		send_sms_to sender, correct_feedback.sample
 	 	sleep(2)
 		message = " So what is the value of  #{session["variable1"]} that we can get by solving the equation? "
   else
 		 session["last_intent"] = "transpose"
+		 media = get_gif_for "no"
 		send_sms_to sender, "Not quite right. \n Let's think about it in this way: \n (0.6-1)  #{session["variable1"]} = -20000, then we divide (-1) in both sides. Let's try again. "
  	 	sleep(2)
 		send_sms_to sender, get_transposed_equation
@@ -282,12 +304,14 @@ end
 elsif session["last_intent"] == "transposed_equation"
 	if match(body, x_value)
   	session["last_intent"] = "get_x_value"
+		media = get_gif_for "great"
 		send_sms_to sender, correct_feedback.sample
  	 	sleep(2)
 	  message = " What is the value of  #{session["variable2"]} then?"
 
   else
 	 session["last_intent"] = "transposed_equation"
+	 media = get_gif_for "wrong"
 	 send_sms_to sender," ❌That's not correct! \n We should try to get the coefficient of  #{session["variable1"]} by dividing both sides by 0.4, then we get  #{session["variable1"]} = 2000/0.4. \n You can calculate it on your own or use a calculator."
 	 sleep(2)
 	 message = "Let's try again. So what is the value of  #{session["variable1"]} that we can get by solving the equation? "
@@ -297,11 +321,13 @@ elsif session["last_intent"] == "transposed_equation"
  elsif session["last_intent"] == "get_x_value"
 	  if match(body, y_value)
 		 session["last_intent"] = "get_y_value"
+		 media = get_gif_for "congratulations"
 		 send_sms_to sender,correct_feedback.sample
 		 sleep(2)
 	 	 message = process
 	 else
 		 session["last_intent"] = "get_x_value"
+		 media = get_gif_for "no"
 		 send_sms_to sender, "❌That's not correct! \n Now that we have the equation  #{session["variable2"]} = 0.6  #{session["variable1"]} and value of  #{session["variable1"]}, we can substitute the  #{session["variable1"]} with the value and get the value of  #{session["variable2"]}!"
 		 sleep(2)
 	 	 message = "Let's try again." + "So, what is the value of  #{session["variable2"]} ?"
@@ -309,6 +335,7 @@ elsif session["last_intent"] == "transposed_equation"
 
  elsif session["last_intent"] == "get_y_value"
 		session["last_intent"] = "social_justice"
+		media = get_gif_for "yes"
 		message = "Great! Now that we have done with the math part. Are you interested in learning more about gender and race pay gap? "
 
 	elsif session["last_intent"] ==  "social_justice"
@@ -318,14 +345,16 @@ elsif session["last_intent"] == "transposed_equation"
      sleep(3)
 		 send_sms_to sender, "When talking about the wage gap for women, it is important to highlight that there are significant differences by race and ethnicity. \n The wage gap is larger for most women of color. \n See the following figure as a reference: \n 'https://cdn.americanprogress.org/content/uploads/2020/03/23102035/Gender-Wage-Gap-_webfig_01.png'"
      sleep(3)
+		 media = get_gif_for "bye"
 		 message = "That's all for today. Hope you learned a lot. Remember that I am always here to help you. See you next time 👋! "
 		else
 			session["last_intent"] = nil
+			 media = get_gif_for "bye"
 			message = "OK. Hope you learned a lot today. Remember that I am always here to help you. See you next time 👋! "
 	end
 
  end
- return message
+ return(message, media)
 end
 
 
@@ -336,9 +365,9 @@ get "/sms/incoming" do
 	session[:counter] ||= 0
 	sender = params[:From] || ""
 	body = params[:Body] || ""
-	query = nil
-  media = get_gif_for query
-	message = determine_response body, sender
+	(message, media) = determine_response body, sender
+  media = media
+	message = message
 
 	twiml = Twilio::TwiML::MessagingResponse.new do |r|
 		r.message do |m|
