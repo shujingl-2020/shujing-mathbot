@@ -58,12 +58,12 @@ session["variable2"] ||= nil
 
 
 	# store chatbot responses into variables
-	bot_greetings = "Welcome! This is Sharia, your math agent! I can give you guidance in solving systems of equations! Are you ready to have some math challenges today?"
-	error_message = "Sorry, I am not sure I understand."
+	bot_greetings = "Welcome👋! This is Sharia 👩‍🏫, your math agent🔢! I can give you guidance in solving systems of equations! Are you ready to have some math challenges today📖?"
+	error_message = "Sorry, I am not sure I understand 🤷‍♀️."
   math_problem = "Great! Here is the problem for today: \n In 2018, the median annual income of black women is approximately 60% of that of white men. \n John is a white man and Jasmine is a black woman. \n Both of them happened to have an annual income that equals the median income of their groups in 2018. \n John made $20,000 more than Jasmine. \n Questions: How much did John make in 2018? \n How much did Jasmine make in 2018?"
 
   # define variables
-	variable_prompt = "\n It's a little complicated, right? We can break down the problem a little bit. \n Firstly, it will be helpful if we translate the word problem into equations. \n Let's define variables first. "
+	variable_prompt = "\n It's a little complicated, right 🤔? We can break down the problem a little bit 🤓. \n Firstly, it will be helpful if we translate the word problem into equations. \n Let's define variables first. "
 	variable1 = "What letter would you like to use as a representation for John?"
 	variable2 = "What letter would you like to use as a representation for Jasmine?"
 	variable1_correction = "Please use a letter from a to z for variables"
@@ -134,7 +134,6 @@ elsif session["last_intent"] == "math_challenge"
 	 if checkVariable1 body
 		  session["last_intent"] = "variable_1"
 			session["variable1"] = body
-			puts "variable1 #{session["variable1"]}"
 	  	return "OK.Use #{session["variable1"]} to stand for John, is that correct?"
    else
 		 session["last_intent"] = "math_challenge"
