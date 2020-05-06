@@ -115,15 +115,15 @@ body = body.downcase.strip
 		session["last_intent"] = "greeting"
 		return bot_greetings
 
-	#confirmation for challenges
+	#confirmation for challenges math_problem + variable_prompt +
 elsif session["last_intent"] == "greeting"
 	 if match(body, human_yes_challenge)
 		session["last_intent"] = "math_challenge"
-		# send_sms_to sender, math_problem
-		# sleep(1)
-		# send_sms_to sender, variable_prompt
-		# sleep(3)
-	  return math_problem + variable_prompt + variable1
+		send_sms_to sender, math_problem
+		sleep(1)
+		send_sms_to sender, variable_prompt
+		sleep(3)
+	  return variable1
 	else
 		session["last_intent"] = nil
 		return no_challenge_response
@@ -158,7 +158,7 @@ elsif	session["last_intent"] == "variable1_confirm"
 		session["variable2"] = body
 		return "Got it! Use #{session["variable2"]} to represent Jasmine, is that correct?"
 	else
-		session["last_intent"] = "variable_1_confirm"
+		session["last_intent"] = "variable1_confirm"
 		return variable2_correction + variable2
 	end
 
