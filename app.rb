@@ -296,7 +296,7 @@ elsif session["last_intent"] == "transposed_equation"
 		 session["last_intent"] = "get_x_value"
 		 send_sms_to sender, "❌That's not correct! \n Now that we have the equation  #{session["variable2"]} = 0.6  #{session["variable1"]} and value of  #{session["variable1"]}, we can substitute the  #{session["variable1"]} with the value and get the value of  #{session["variable2"]}!"
 		 sleep(2)
-	 	 return "Let's try again."+"So, what is the value of  #{session["variable2"]} ?"
+	 	 return "Let's try again." + "So, what is the value of  #{session["variable2"]} ?"
 	 end
  end
 end
