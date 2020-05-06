@@ -118,9 +118,10 @@ body = body.downcase.strip
 	if session["last_intent"] == nil
 		if match body, human_greetngs
 		session["last_intent"] = "greeting"
-		return bot_greetings
+		message = bot_greetings
+		media = nil
 	else
-		return error_message + "You can say hi to me! "
+		message = error_message + "You can say hi to me! "
 	end
 	#confirmation for challenges math_problem + variable_prompt +
 elsif session["last_intent"] == "greeting"
@@ -134,13 +135,13 @@ elsif session["last_intent"] == "greeting"
 		sleep(3)
 		send_sms_to sender, variable_prompt
 		sleep(3)
-	 return variable1
+	  message = variable1
  elsif match(body, human_no_challenge)
 		session["last_intent"] = nil
 		message = no_challenge_response
  else
 	 session["last_intent"] = "greeting"
-	 error_message +  "Are you ready to have some math challenges today📖?"
+	 message = error_message +  "Are you ready to have some math challenges today📖?"
 	end
 
 	# check if the user input of variable1 is valid
@@ -148,22 +149,22 @@ elsif session["last_intent"] == "math_challenge"
 	 if checkVariable1 body
 		  session["last_intent"] = "variable_1"
 			session["variable1"] = body
-	  	return "OK.Use #{session["variable1"]} to stand for John, is that correct?"
+	  	message = "OK.Use #{session["variable1"]} to stand for John, is that correct?"
    else
 		 session["last_intent"] = "math_challenge"
 		 send_sms_to sender, variable1_correction
  		 sleep(2)
-		 return variable1
+		 message = variable1
 	end
 
 	# confirm variable
 elsif session["last_intent"] == "variable_1"
 		if match(body, human_yes_variable1)
 			session["last_intent"] = "variable1_confirm"
-		  return variable2
+		  message = variable2
    else
 		session["last_intent"] = "math_challenge"
-		return "Got it." + variable1
+	  message = "Got it." + variable1
 	end
 
 	# check if the user input of variable2 is valid
@@ -171,12 +172,12 @@ elsif	session["last_intent"] == "variable1_confirm"
    if checkVariable2(body,session["variable1"])
 		session["last_intent"] = "variable_2"
 		session["variable2"] = body
-		return "Got it! Use #{session["variable2"]} to represent Jasmine, is that correct?"
+		message = "Got it! Use #{session["variable2"]} to represent Jasmine, is that correct?"
 	else
 		session["last_intent"] = "variable1_confirm"
 		send_sms_to sender, variable2_correction
 		sleep(2)
-		return variable2
+		message = variable2
 	end
 
 	elsif session["last_intent"] == "variable_2"
@@ -186,10 +187,10 @@ elsif	session["last_intent"] == "variable1_confirm"
 		sleep(2)
 		send_sms_to sender, "What equation with variables can we generate according to this condition?"
 		sleep(2)
-		return " 1️⃣ #{session["variable2"]} = 0.6 #{session["variable1"]} \n 2️⃣ #{session["variable1"]} = 0.6 #{session["variable2"]} \n " + replychoice
+		message = " 1️⃣ #{session["variable2"]} = 0.6 #{session["variable1"]} \n 2️⃣ #{session["variable1"]} = 0.6 #{session["variable2"]} \n " + replychoice
 	else
 		session["last_intent"] = "variable1_confirm"
-		return "Got it. " + variable2
+		message = "Got it. " + variable2
 end
 
  	# check if the user's choice of equation1 is correct
@@ -200,14 +201,14 @@ elsif session["last_intent"] == "variable2_confirmation"
  		 sleep(2)
  		 send_sms_to sender,"Now let's work on the second equation. \n What can you get from the condition 'John made $20,000 more than Jasmine'?"
  		 sleep(2)
-		 return " 1️⃣ #{session["variable2"]} = #{session["variable1"]} + 20000 \n2️⃣ #{session["variable2"]} = #{session["variable1"]} - 20000  \n " + replychoice
+		 message = " 1️⃣ #{session["variable2"]} = #{session["variable1"]} + 20000 \n2️⃣ #{session["variable2"]} = #{session["variable1"]} - 20000  \n " + replychoice
 	 else
 		session["last_intent"] = "variable2_confirmation"
 		send_sms_to sender,  "Are you sure? \n #{session["variable1"]} represents John(white man) and #{session["variable2"]} represents Jasmine(black woman). \n #{session["variable2"]}'s income is 60% of that of #{session["variable1"]}'s. "
 		sleep(2)
 		send_sms_to sender, "Let's try again. \n In 2018, the median annual income of black women is approximately 60% of that of white men. \n John is a white man and Jasmine is a black woman."
 		sleep(2)
-	 	return "What equation with variables can we generate according to this condition? \n 1️⃣ #{session["variable2"]} = 0.6 #{session["variable1"]} \n 2️⃣ #{session["variable1"]} = 0.6 #{session["variable2"]} \n " + replychoice
+	 	message = "What equation with variables can we generate according to this condition? \n 1️⃣ #{session["variable2"]} = 0.6 #{session["variable1"]} \n 2️⃣ #{session["variable1"]} = 0.6 #{session["variable2"]} \n " + replychoice
 end
 		# check if the user's choice of equation2 is correct
 elsif session["last_intent"] == "equation1"
@@ -218,12 +219,12 @@ elsif session["last_intent"] == "equation1"
  		send_sms_to sender, " OK. Now we get the first equation #{session["variable2"]} = 0.6 #{session["variable1"]} and the second equation #{session["variable2"]} = #{session["variable1"]} + 20000.  What can we do next? "
  		sleep(2)
 		send_sms_to sender, "Let's substitute y in the second equation with x to eliminate one variable."
-		return  "What equation can we get combining the two equations? " + "\n 1️⃣  0.6  #{session["variable1"]} =  #{session["variable1"]} - 20000 \n  2️⃣ 0.6 #{session["variable1"]} =  #{session["variable1"]} + 20000 \n" + replychoice
+		message =  "What equation can we get combining the two equations? " + "\n 1️⃣  0.6  #{session["variable1"]} =  #{session["variable1"]} - 20000 \n  2️⃣ 0.6 #{session["variable1"]} =  #{session["variable1"]} + 20000 \n" + replychoice
 	else
 		session["last_intent"] = "equation1"
 		send_sms_to sender, "Are you sure? Think about whose money is less. \n Let's do it again."
  		sleep(2)
-		return  "What can you get from the condition 'John made $20,000 more than Jasmine'?"+"\n 1️⃣ #{session["variable2"]} = #{session["variable1"]} + 20000 \n 2️⃣#{session["variable2"]} = #{session["variable1"]} - 20000 \n" + replychoice
+		message = "What can you get from the condition 'John made $20,000 more than Jasmine'?"+"\n 1️⃣ #{session["variable2"]} = #{session["variable1"]} + 20000 \n 2️⃣#{session["variable2"]} = #{session["variable1"]} - 20000 \n" + replychoice
 end
 
 #elinimate variable
@@ -234,14 +235,14 @@ elsif session["last_intent"] == "equation2"
 	 sleep(2)
 	 send_sms_to sender, " Now let's try to get  #{session["variable1"]} to one side of the equation. "
 	 sleep(2)
-	 return "What do we get if we move  #{session["variable1"]} to one side?"+"\n 1️⃣  #{session["variable1"]} + 0.6  #{session["variable1"]} = 20000 \n  2️⃣ 0.6  #{session["variable1"]} -  #{session["variable1"]} = -20000 \n" + replychoice
+	 message = "What do we get if we move  #{session["variable1"]} to one side?"+"\n 1️⃣  #{session["variable1"]} + 0.6  #{session["variable1"]} = 20000 \n  2️⃣ 0.6  #{session["variable1"]} -  #{session["variable1"]} = -20000 \n" + replychoice
  else
 	 session["last_intent"] = "equation2"
 	 send_sms_to sender,  "Not quite right.😐 \n We got  #{session["variable2"]} = 0.6 #{session["variable1"]} and  #{session["variable2"]} =  #{session["variable1"]} - 20000. \n What do you get if we substitute the  #{session["variable2"]} with 0.6  #{session["variable1"]} in equation 2? \n Let's try again."
 	 sleep(2)
 	 send_sms_to sender,  "Now we get the first equation #{session["variable2"]} = 0.6 #{session["variable1"]} and the second equation #{session["variable2"]} = #{session["variable1"]} + 20000.  What can we do next? "
 	 sleep(2)
-	 return "Let's substitute y in the second equation with x to eliminate one variable. What equation can we get combining the two equations? " + "\n 1️⃣ 0.6  #{session["variable1"]} =  #{session["variable1"]} - 2000 \n  2️⃣ 0.6 #{session["variable1"]} =  #{session["variable1"]} + 2000 \n" + replychoice
+	 message = "Let's substitute y in the second equation with x to eliminate one variable. What equation can we get combining the two equations? " + "\n 1️⃣ 0.6  #{session["variable1"]} =  #{session["variable1"]} - 2000 \n  2️⃣ 0.6 #{session["variable1"]} =  #{session["variable1"]} + 2000 \n" + replychoice
  end
 # transpose the equation
 elsif session["last_intent"] == "eliminate_variable"
@@ -251,14 +252,14 @@ elsif session["last_intent"] == "eliminate_variable"
 	sleep(2)
 	send_sms_to sender, get_transposed_equation
 	sleep(2)
-	return + " 1️⃣ 0.4  #{session["variable1"]} = 20000 \n 2️⃣ -0.4  #{session["variable1"]}  = 20000. \n" + replychoice
+	message = " 1️⃣ 0.4  #{session["variable1"]} = 20000 \n 2️⃣ -0.4  #{session["variable1"]}  = 20000. \n" + replychoice
  else
 	session["last_intent"] = "eliminate_variable"
 	send_sms_to sender, transpose_wrong_feedback
 	sleep(2)
 	send_sms_to sender, " Let's try again. \n Now let's try to get  #{session["variable1"]} to one side of the equation. \n What do we get if we move  #{session["variable1"]} to one side?"
 	sleep(2)
-	return "1️⃣ #{session["variable1"]} + 0.6  #{session["variable1"]} = 20000 \n   2️⃣ 0.6  #{session["variable1"]} -  #{session["variable1"]} = -20000 \n" + replychoice
+	message = "1️⃣ #{session["variable1"]} + 0.6  #{session["variable1"]} = 20000 \n   2️⃣ 0.6  #{session["variable1"]} -  #{session["variable1"]} = -20000 \n" + replychoice
 end
 
 	# get transposed equation
@@ -267,14 +268,14 @@ elsif session["last_intent"] == "transpose"
 		 session["last_intent"] = "transposed_equation"
 		send_sms_to sender, correct_feedback.sample
 	 	sleep(2)
-		return  " So what is the value of  #{session["variable1"]} that we can get by solving the equation? "
+		message = " So what is the value of  #{session["variable1"]} that we can get by solving the equation? "
   else
 		 session["last_intent"] = "transpose"
 		send_sms_to sender, "Not quite right. \n Let's think about it in this way: \n (0.6-1)  #{session["variable1"]} = -20000, then we divide (-1) in both sides. Let's try again. "
  	 	sleep(2)
 		send_sms_to sender, get_transposed_equation
  	 	sleep(2)
-	  return " 1️⃣ 0.4  #{session["variable1"]} = 20000 \n  2️⃣ -0.4  #{session["variable1"]}  = 20000 \n " + replychoice
+	  message = " 1️⃣ 0.4  #{session["variable1"]} = 20000 \n  2️⃣ -0.4  #{session["variable1"]}  = 20000 \n " + replychoice
 end
 
 # get the value of x
@@ -283,13 +284,13 @@ elsif session["last_intent"] == "transposed_equation"
   	session["last_intent"] = "get_x_value"
 		send_sms_to sender, correct_feedback.sample
  	 	sleep(2)
-	  return " What is the value of  #{session["variable2"]} then?"
+	  message = " What is the value of  #{session["variable2"]} then?"
 
   else
 	 session["last_intent"] = "transposed_equation"
 	 send_sms_to sender," ❌That's not correct! \n We should try to get the coefficient of  #{session["variable1"]} by dividing both sides by 0.4, then we get  #{session["variable1"]} = 2000/0.4. \n You can calculate it on your own or use a calculator."
 	 sleep(2)
-	 return "Let's try again. So what is the value of  #{session["variable1"]} that we can get by solving the equation? "
+	 message = "Let's try again. So what is the value of  #{session["variable1"]} that we can get by solving the equation? "
  end
 
 	 # get the value of y
@@ -298,17 +299,17 @@ elsif session["last_intent"] == "transposed_equation"
 		 session["last_intent"] = "get_y_value"
 		 send_sms_to sender,correct_feedback.sample
 		 sleep(2)
-	 	 return process
+	 	 message = process
 	 else
 		 session["last_intent"] = "get_x_value"
 		 send_sms_to sender, "❌That's not correct! \n Now that we have the equation  #{session["variable2"]} = 0.6  #{session["variable1"]} and value of  #{session["variable1"]}, we can substitute the  #{session["variable1"]} with the value and get the value of  #{session["variable2"]}!"
 		 sleep(2)
-	 	 return "Let's try again." + "So, what is the value of  #{session["variable2"]} ?"
+	 	 message = "Let's try again." + "So, what is the value of  #{session["variable2"]} ?"
 	 end
 
  elsif session["last_intent"] == "get_y_value"
 		session["last_intent"] = "social_justice"
-		return "Great! Now that we have done with the math part. Are you interested in learning more about gender and race pay gap? "
+		message = "Great! Now that we have done with the math part. Are you interested in learning more about gender and race pay gap? "
 
 	elsif session["last_intent"] ==  "social_justice"
 	  if match body, yes_social_justice
@@ -317,14 +318,14 @@ elsif session["last_intent"] == "transposed_equation"
      sleep(3)
 		 send_sms_to sender, "When talking about the wage gap for women, it is important to highlight that there are significant differences by race and ethnicity. \n The wage gap is larger for most women of color. \n See the following figure as a reference: \n 'https://cdn.americanprogress.org/content/uploads/2020/03/23102035/Gender-Wage-Gap-_webfig_01.png'"
      sleep(3)
-		 return "That's all for today. Hope you learned a lot. Remember that I am always here to help you. See you next time 👋! "
+		 message = "That's all for today. Hope you learned a lot. Remember that I am always here to help you. See you next time 👋! "
 		else
 			session["last_intent"] = nil
-			return "OK. Hope you learned a lot today. Remember that I am always here to help you. See you next time 👋! "
+			message = "OK. Hope you learned a lot today. Remember that I am always here to help you. See you next time 👋! "
 	end
 
-
  end
+ return message
 end
 
 
@@ -336,11 +337,6 @@ get "/sms/incoming" do
 	sender = params[:From] || ""
 	body = params[:Body] || ""
 	query = nil
-	if match body, human_greetngs
-		query = "Welcome"
-	else
-		query = nil
-	end
   media = get_gif_for query
 	message = determine_response body, sender
 
