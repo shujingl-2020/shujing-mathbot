@@ -129,16 +129,16 @@ elsif session["last_intent"] == "greeting"
 		sleep(3)
 		send_sms_to sender, math2
 		sleep(3)
-		send_sms_to sender, math3
-		sleep(3)
-		send_sms_to sender, math4
-		sleep(3)
-		send_sms_to sender, math5
-		sleep(3)
-		send_sms_to sender, variable_prompt1
-		sleep(3)
-		send_sms_to sender, variable_prompt2
-		sleep(2)
+		# send_sms_to sender, math3
+		# sleep(3)
+		# send_sms_to sender, math4
+		# sleep(3)
+		# send_sms_to sender, math5
+		# sleep(3)
+		# send_sms_to sender, variable_prompt1
+		# sleep(3)
+		# send_sms_to sender, variable_prompt2
+		# sleep(2)
 	 return variable1
 	else
 		session["last_intent"] = nil
