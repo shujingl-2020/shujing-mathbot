@@ -354,7 +354,7 @@ elsif session["last_intent"] == "transposed_equation"
 	end
 
  end
- return message, media
+ return message
 end
 
 
@@ -365,9 +365,8 @@ get "/sms/incoming" do
 	session[:counter] ||= 0
 	sender = params[:From] || ""
 	body = params[:Body] || ""
-	message, media = determine_response body, sender
-  media = media
-	message = message
+	message = determine_response body, sender
+	media = get_gif_for body
 
 	twiml = Twilio::TwiML::MessagingResponse.new do |r|
 		r.message do |m|
@@ -394,7 +393,13 @@ end
 
 
 def get_gif_for query
-
+	human_greetngs = ["hi","what's up","hello","hi there","what can you do"]
+	if match query, human_greetngs
+		query = "hi"
+	else
+		query = nil
+	end
+	
 	Giphy::Configuration.configure do |config|
     config.api_key = ENV["GIPHY_API_KEY"]
   end
