@@ -202,7 +202,7 @@ elsif	session["last_intent"] == "variable1_confirm"
 		message = " 1️⃣ #{session["variable2"]} = 0.6 #{session["variable1"]} \n 2️⃣ #{session["variable1"]} = 0.6 #{session["variable2"]} \n " + replychoice
 	else
 		session["last_intent"] = "variable1_confirm"
-		media = get_gif_for "OK"
+		media = nil
 		message = "Got it. " + variable2
 end
 
@@ -230,7 +230,7 @@ elsif session["last_intent"] == "equation1"
 	if body == correct_choice_equation2
 		 session["last_intent"] = "equation2"
 		send_sms_to sender,  correct_feedback.sample
-		media = get_gif_for "correct"
+		media = nil
  		sleep(2)
  		send_sms_to sender, " OK. Now we get the first equation #{session["variable2"]} = 0.6 #{session["variable1"]} and the second equation #{session["variable2"]} = #{session["variable1"]} + 20000.  What can we do next? "
  		sleep(2)
