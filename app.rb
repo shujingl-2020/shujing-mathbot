@@ -197,7 +197,7 @@ elsif	session["last_intent"] == "variable1_confirm"
 		sleep(2)
 		send_sms_to sender, "What equation with variables can we generate according to this condition?"
 		sleep(2)
-		media = get_gif_for "equation"
+		media = nil
 		message = " 1️⃣ #{session["variable2"]} = 0.6 #{session["variable1"]} \n 2️⃣ #{session["variable1"]} = 0.6 #{session["variable2"]} \n " + replychoice
 	else
 		session["last_intent"] = "variable1_confirm"
@@ -262,11 +262,12 @@ elsif session["last_intent"] == "equation2"
 	 sleep(2)
 	 message = "Let's substitute y in the second equation with x to eliminate one variable. What equation can we get combining the two equations? " + "\n 1️⃣ 0.6  #{session["variable1"]} =  #{session["variable1"]} - 2000 \n  2️⃣ 0.6 #{session["variable1"]} =  #{session["variable1"]} + 2000 \n" + replychoice
  end
+
 # transpose the equation
 elsif session["last_intent"] == "eliminate_variable"
 	if body == correct_choice_transpose
 	session["last_intent"] = "transpose"
-	media = get_gif_for "good job"
+	media = get_gif_for "yeah"
 	send_sms_to sender, correct_feedback.sample
 	sleep(2)
 	send_sms_to sender, get_transposed_equation
@@ -274,7 +275,7 @@ elsif session["last_intent"] == "eliminate_variable"
 	message = " 1️⃣ 0.4  #{session["variable1"]} = 20000 \n 2️⃣ -0.4  #{session["variable1"]}  = 20000. \n" + replychoice
  else
 	session["last_intent"] = "eliminate_variable"
-	media = get_gif_for "shaking head"
+	media = get_gif_for "no"
 	send_sms_to sender, transpose_wrong_feedback
 	sleep(2)
 	send_sms_to sender, " Let's try again. \n Now let's try to get  #{session["variable1"]} to one side of the equation. \n What do we get if we move  #{session["variable1"]} to one side?"
@@ -285,8 +286,8 @@ end
 	# get transposed equation
 elsif session["last_intent"] == "transpose"
 	 if body == correct_choice_transposed_equation
-		 session["last_intent"] = "transposed_equation"
-		 media = get_gif_for "good"
+		session["last_intent"] = "transposed_equation"
+		media = get_gif_for "good"
 		send_sms_to sender, correct_feedback.sample
 	 	sleep(2)
 		message = " So what is the value of  #{session["variable1"]} that we can get by solving the equation? "
