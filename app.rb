@@ -180,7 +180,7 @@ elsif	session["last_intent"] == "variable1_confirm"
    if checkVariable2(body,session["variable1"])
 		session["last_intent"] = "variable_2"
 		session["variable2"] = body
-		media = get_gif_for "yes?"
+		media = nil
 		message = "Got it! Use #{session["variable2"]} to represent Jasmine, is that correct?"
 	else
 		session["last_intent"] = "variable1_confirm"
