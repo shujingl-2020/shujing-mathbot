@@ -354,7 +354,7 @@ elsif session["last_intent"] == "transposed_equation"
 	end
 
  end
- return(message, media)
+ return message, media
 end
 
 
@@ -365,7 +365,7 @@ get "/sms/incoming" do
 	session[:counter] ||= 0
 	sender = params[:From] || ""
 	body = params[:Body] || ""
-	(message, media) = determine_response body, sender
+	message, media = determine_response body, sender
   media = media
 	message = message
 
