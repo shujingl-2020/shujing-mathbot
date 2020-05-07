@@ -294,7 +294,7 @@ elsif session["last_intent"] == "transpose"
 		message = " So what is the value of  #{session["variable1"]} that we can get by solving the equation? "
   else
 		 session["last_intent"] = "transpose"
-		 media = get_gif_for "no"
+		 media = nil
 		send_sms_to sender, "Not quite right. \n Let's think about it in this way: \n (0.6-1)  #{session["variable1"]} = -20000, then we divide (-1) in both sides. Let's try again. "
  	 	sleep(2)
 		send_sms_to sender, get_transposed_equation
