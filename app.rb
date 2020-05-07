@@ -314,7 +314,7 @@ elsif session["last_intent"] == "transposed_equation"
   else
 	 session["last_intent"] = "transposed_equation"
 	 media = nil
-	 send_sms_to sender," ❌That's not correct! \n We should try to get the coefficient of  #{session["variable1"]} by dividing both sides by 0.4, then we get  #{session["variable1"]} = 2000/0.4. \n You can calculate it on your own or use a calculator."
+	 send_sms_to sender,"❌That's not correct! \n We should try to get the coefficient of  #{session["variable1"]} by dividing both sides by 0.4, then we get  #{session["variable1"]} = 2000/0.4. \n You can calculate it on your own or use a calculator."
 	 sleep(2)
 	 message = "Let's try again. So what is the value of  #{session["variable1"]} that we can get by solving the equation? "
  end
