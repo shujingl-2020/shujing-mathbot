@@ -288,9 +288,9 @@ end
 elsif session["last_intent"] == "transpose"
 	 if body == correct_choice_transposed_equation
 		session["last_intent"] = "transposed_equation"
-		media = get_gif_for "good"
 		send_sms_to sender, correct_feedback.sample
 	 	sleep(2)
+		media = nil
 		message = " So what is the value of  #{session["variable1"]} that we can get by solving the equation? "
   else
 		 session["last_intent"] = "transpose"
