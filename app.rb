@@ -353,7 +353,7 @@ elsif session["last_intent"] == "transposed_equation"
 			message = "OK. Hope you learned a lot today. Remember that I am always here to help you. See you next time 👋! "
 	end
  end
- return [message, media]
+ return message, media
 end
 
 
@@ -364,7 +364,7 @@ get "/sms/incoming" do
 	session[:counter] ||= 0
 	sender = params[:From] || ""
 	body = params[:Body] || ""
-	[message, media] = determine_response body, sender
+	message, media = determine_response body, sender
 
 	twiml = Twilio::TwiML::MessagingResponse.new do |r|
 		r.message do |m|
