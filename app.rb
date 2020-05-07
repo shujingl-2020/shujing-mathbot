@@ -306,14 +306,14 @@ end
 elsif session["last_intent"] == "transposed_equation"
 	if match(body, x_value)
   	session["last_intent"] = "get_x_value"
-		media = get_gif_for "great"
+		media = nil
 		send_sms_to sender, correct_feedback.sample
  	 	sleep(2)
 	  message = " What is the value of  #{session["variable2"]} then?"
 
   else
 	 session["last_intent"] = "transposed_equation"
-	 media = get_gif_for "wrong"
+	 media = nil
 	 send_sms_to sender," ❌That's not correct! \n We should try to get the coefficient of  #{session["variable1"]} by dividing both sides by 0.4, then we get  #{session["variable1"]} = 2000/0.4. \n You can calculate it on your own or use a calculator."
 	 sleep(2)
 	 message = "Let's try again. So what is the value of  #{session["variable1"]} that we can get by solving the equation? "
@@ -337,7 +337,7 @@ elsif session["last_intent"] == "transposed_equation"
 
  elsif session["last_intent"] == "get_y_value"
 		session["last_intent"] = "social_justice"
-		media = get_gif_for "yes"
+		media = nil
 		message = "Great! Now that we have done with the math part. Are you interested in learning more about gender and race pay gap? "
 
 	elsif session["last_intent"] ==  "social_justice"
