@@ -113,6 +113,7 @@ session["variable2"] ||= nil
 process = "\n Congratulations 🎉🎉🎉! You have finished the challenge 🥂! \n So let's recall the process of solving systems of equations word problems: \n 1️⃣ define variables. \n 2️⃣ get the two equations. \n 3️⃣ eliminate one variable by combining the two equations. \n 4️⃣ solve the equation to get the value of one variable. \n 5️⃣ put the value back to the equation to get the value of the other variable."
 
 body = body.downcase.strip
+
 # happy path
   # first step. introduction
 	if session["last_intent"] == nil
