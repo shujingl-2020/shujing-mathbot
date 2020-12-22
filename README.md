@@ -1,1 +1,2 @@
-Add your skills dev code to this folder.
+### Saria Mathbot
+This is a chat bot web app developed in Ruby on Rails that can help students solve math problems.
